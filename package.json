@@ -7,6 +7,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "mysql2": "^1.6.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.19"
@@ -15,6 +22,8 @@
     "@vue/cli-plugin-babel": "^3.0.0-rc.10",
     "@vue/cli-service": "^3.0.0-rc.10",
     "babel-plugin-transform-imports": "^1.4.1",
+    "eslint": "^5.3.0",
+    "eslint-config-google": "^0.9.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-vuetify": "^0.1.6",
