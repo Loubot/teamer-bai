@@ -9,6 +9,10 @@ var cookieParser = require('cookie-parser');
 app.use(serveStatic(__dirname + "/dist"));
 
 
+app.use( bodyParser.urlencoded ({
+    extended: true
+}));
+
 // Initialise passport
 var passport = require("passport");
 app.use( passport.initialize() );
