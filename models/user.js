@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING
   }, {});
   User.associate = function(models) {
-    User.hasMany( models.events, {
+    User.hasMany( models.Event, {
     	foreign_key: 'creator'
     })
   };
