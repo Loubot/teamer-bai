@@ -2,13 +2,14 @@ var express = require('express');
 var path = require('path');
 var serveStatic = require('serve-static');
 app = express();
+var winston = require('./config/winston-config').load_winston()
 var models = require('./models');
 var fs = require( 'fs' );
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 app.use(serveStatic(__dirname + "/dist"));
 
-
+winston.info('asdfasdf')
 app.use( bodyParser.urlencoded ({
     extended: true
 }));

@@ -40,14 +40,9 @@ module.exports.controller = function( app, strategy ) {
 				  	    	id: user.id
 						  }
 
-						console.log( payload )
-						  
-						console.log( 'secret' )
-						console.log( config )
+						
 
 						var token = jwt.encode(payload, config.jwtSecret)
-						console.log( 'token' )
-						console.log( token )
 						res.json( token )
 						
 						
