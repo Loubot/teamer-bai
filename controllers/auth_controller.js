@@ -1,6 +1,8 @@
 'use strict';
 
 let credential = require('credential')
+let jwt = require("jwt-simple")
+let config = require("../config/strategy-config")
 let pw = credential()
 let models = require( '../models' )
 let Sequelize = require( 'sequelize' )
@@ -20,7 +22,7 @@ module.exports.controller = function( app, strategy ) {
 
 	app.post( '/register', function( req, res ) {
 		console.log('register')
-		// console.log( req.body )
+		console.log( req.body )
 
 		pw.hash( req.body.password, function( err, hash ) {
 			if ( err ){
@@ -33,16 +35,24 @@ module.exports.controller = function( app, strategy ) {
 				}).spread( ( user, created ) => {
                     console.log( 'hup boi' )
 					if ( created ) {
-                        
+                        console.log( 'Created' )
 						var payload = {
 				  	    	id: user.id
-				  		}
+						  }
 
-						var token = jwt.encode(payload, config.jwtSecret);
+						console.log( payload )
+						  
+						console.log( 'secret' )
+						console.log( config )
+
+						var token = jwt.encode(payload, config.jwtSecret)
+						console.log( 'token' )
+						console.log( token )
 						res.json( token )
 						
+						
 					} else {
-					
+						console.log( 'not created' )
 						res.sendStatus( 400 )
 					}
 					
