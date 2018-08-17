@@ -9,7 +9,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 app.use(serveStatic(__dirname + "/dist"));
 
-winston.info('asdfasdf')
 app.use( bodyParser.urlencoded ({
     extended: true
 }));
