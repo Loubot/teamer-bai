@@ -3,9 +3,9 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 
-import Axios from 'axios'
+import VueResource from 'vue-resource'
 
-Vue.prototype.$http  = Axios
+Vue.use(VueResource)
 
 Vue.config.productionTip = false
 

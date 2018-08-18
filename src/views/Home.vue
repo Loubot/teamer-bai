@@ -16,7 +16,8 @@
             label="E-mail"
             required
           ></v-text-field>
-          </v-form>
+          <v-btn color="success" v-on:click="createEvent()">Submit</v-btn>
+        </v-form>
         
       </v-layout>
     </v-slide-y-transition>
@@ -37,7 +38,23 @@
       }
     },
     mounted() {
-      
+      console.log( this )
+    },
+    methods: {
+      createEvent() {
+        this.$http.post( 'http://localhost:5000/event', 
+        { 
+          creatorId: '3'
+        },{
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          }
+        }).then( function( res ) {
+          console.log( JSON.stringify( res.data ) )
+        }).catch( function( err ) {
+          console.log( err )
+        })
+      }
     }
   }
 </script>

@@ -7,11 +7,13 @@ module.exports.controller = function( app, strategy ) {
 
     app.post( '/event', function( req, res ) {
         winston.debug( '/event post')
-        winston.debug( req.body )
+        winston.debug( JSON.stringify( req.params ) )
+        winston.debug( JSON.stringify( req.body ) )
+        winston.debug( JSON.stringify( req.data ) )
         models.Event.create( { creatorId: 1 } ).then( function( event ) {
             winston.debug( 'Created event' )
             winston.debug( event )
-            res.json( event )
+            res.json( req.body )
         }).catch( function( err ) {
             winston.debug( 'Event creation failed' )
             winston.debug( err )
