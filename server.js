@@ -12,6 +12,7 @@ app.use(serveStatic(__dirname + "/dist"));
 app.use( bodyParser.urlencoded ({
     extended: true
 }));
+app.use(bodyParser.json())
 
 // Initialise passport
 var passport = require("passport");

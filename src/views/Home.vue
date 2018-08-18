@@ -42,17 +42,19 @@
     },
     methods: {
       createEvent() {
-        this.$http.post( 'http://localhost:5000/event', 
-        { 
-          creatorId: '3'
-        },{
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded'
-          }
-        }).then( function( res ) {
-          console.log( JSON.stringify( res.data ) )
-        }).catch( function( err ) {
-          console.log( err )
+        var payload = {creatorId: 1};
+
+        this.$http.post(
+            'http://localhost:5000/event',
+            {
+              'creatorId':'1'
+            },
+            { headers: {
+                    'content-type': 'application/json'
+                }
+            }
+        ).then( function( res ) {
+          console.log( res )
         })
       }
     }
