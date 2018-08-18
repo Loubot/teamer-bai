@@ -14,6 +14,10 @@ module.exports.controller = function( app, strategy ) {
 			where: { id: 1 }, include: [{all:true}]
 		}).then( user => {
 			console.log( user )
+			user.getEvents().then( function( res ) {
+				console.log( 'getevents' )
+				console.log( res )
+			})
 			res.json( user )
 		}).catch( function( err ) {
 			console.log( 'error' )

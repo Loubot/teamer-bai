@@ -8,7 +8,7 @@ module.exports.controller = function( app, strategy ) {
     app.post( '/event', function( req, res ) {
         winston.debug( '/event post')
         winston.debug( req.body )
-        models.Event.create( { userId: 1 } ).then( function( event ) {
+        models.Event.create( { creatorId: 1 } ).then( function( event ) {
             winston.debug( 'Created event' )
             winston.debug( event )
             res.json( event )

@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
-    userId: DataTypes.INTEGER
+    creatorId: DataTypes.INTEGER
   }, {});
   Event.associate = function(models) {
-    Event.belongsTo( models.User )
+    Event.belongsTo( models.User, { foreignKey: 'creatorId', sourceKey: 'id' } )
   };
   return Event;
 };
