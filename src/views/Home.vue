@@ -25,18 +25,21 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-export default {
-  data() {
-    return {
-      rules: [],
-      valid: false,
-      nameRules: [],
-      emailRules: [],
-      name: '',
-      email:''
+  export default {
+    data() {
+      return {
+        rules: [],
+        valid: false,
+        nameRules: [],
+        emailRules: [],
+        name: '',
+        email:''
+      }
+    },
+    mounted() {
+      
     }
   }
-}
 </script>
 
 <style scoped>
