@@ -5,10 +5,8 @@ let models = require('../models')
 
 module.exports.controller = function( app, strategy ) {
 
-	app.get('/user', function( req, res ) {
+	app.get('/user', strategy.authenticate(), function( req, res ) {
 		console.log( '/user user_controller')
-        
-        
 
 		models.User.findOne({
 			where: { id: 1 }, include: [{all:true}]

@@ -32,7 +32,6 @@
 <script>
 export default {
   name: 'HelloWorld',
-  import axios from 'axios',
   props: {
     msg: String
   }

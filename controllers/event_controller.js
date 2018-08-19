@@ -6,7 +6,7 @@ let models = require( '../models' )
 
 module.exports.controller = function( app, strategy ) {
 
-    app.post( '/event', function( req, res ) {
+    app.post( '/event', strategy.authenticate(), function( req, res ) {
         console.log( winston )
         winston.debug( '/event post')
         winston.debug( JSON.stringify( req.body ) )

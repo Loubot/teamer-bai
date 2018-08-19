@@ -32,18 +32,7 @@ fs.readdirSync('./controllers').forEach(function (file) {
     }
 });
 
-app.use(function(req, res, next){
-    var whitelist = ['localhost:8080', 'localhost:5000']
-    var host = req.get('host');
-  
-    whitelist.forEach(function(val, key){
-      if (host.indexOf(val) > -1){
-        res.setHeader('Access-Control-Allow-Origin', host);
-      }
-    })
-  
-    next();
-})
+
 
 var port = process.env.PORT || 5000;
 app.listen(port);

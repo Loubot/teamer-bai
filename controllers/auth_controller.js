@@ -9,7 +9,43 @@ let Sequelize = require( 'sequelize' )
 
 
 module.exports.controller = function( app, strategy ) {
+	app.post('/login', function( req, res ) {
+		console.log( 'login' )
+		if (req.body.email && req.body.password ) {
+	        
+	        models.User.findOne({
+	        			where: { email: req.body.email }
+	        		}).then( user => {
+	        			if (user) {
+	        				pw.verify( user.password, req.body.password, function( err, isValid ) {
+	        				  	if (err) { 
+	        				  		console.log(err)
+	        				  		throw err; 
+	        				  	}
+	        				  	console.log(isValid)
+	        				  	if ( isValid ) {
+	        				  		var payload = {
+	        				  	    	id: user.id
+	        				  		}
+	        				  		var token = jwt.encode(payload, config.jwtSecret);
+	        				  		res.json( token )
+	        				  	} else {
+	        				  		
+	        				  		res.sendStatus( 401 )
+	        				  	}
+	        				})
+				            
+				        } else {
+				            res.sendStatus(401);
+				        }
+	        		})
+		        
+	    } else {
+	        res.sendStatus(401);
+	    }
 
+		
+	})
 
 
     var hash_password = function( pass ) {

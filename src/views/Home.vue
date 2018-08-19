@@ -50,9 +50,8 @@
               'creatorId':'1'
             },
             { headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:8080',
-                'Access-Control-Allow-Credentials': 'true',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.0Bkiznykchn27Prf9PvTC6PV3Xd_DqbsGntTqyqTInU" 
               }
             }
         ).then( function( res ) {
