@@ -1,19 +1,19 @@
 'use strict'
 
-let winston = require( 'winston' )
+let winston = require('../config/winston-config').load_winston()
 let models = require( '../models' )
+
 
 module.exports.controller = function( app, strategy ) {
 
     app.post( '/event', function( req, res ) {
+        console.log( winston )
         winston.debug( '/event post')
-        winston.debug( JSON.stringify( req.params ) )
         winston.debug( JSON.stringify( req.body ) )
-        winston.debug( JSON.stringify( req.data ) )
-        models.Event.create( { creatorId: 1 } ).then( function( event ) {
+        models.Event.create( { creatorId: req.body.creatorId } ).then( function( event ) {
             winston.debug( 'Created event' )
             winston.debug( event )
-            res.json( req.body )
+            res.json( event )
         }).catch( function( err ) {
             winston.debug( 'Event creation failed' )
             winston.debug( err )

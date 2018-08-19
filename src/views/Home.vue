@@ -50,11 +50,15 @@
               'creatorId':'1'
             },
             { headers: {
-                    'content-type': 'application/json'
-                }
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+                'Access-Control-Allow-Credentials': 'true',
+                'content-type': 'application/json'
+              }
             }
         ).then( function( res ) {
           console.log( res )
+        }).catch( function( err ) {
+          console.log( err )
         })
       }
     }
