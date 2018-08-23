@@ -1,5 +1,6 @@
 'use strict';
 
+let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
 
 
@@ -16,6 +17,13 @@ module.exports.controller = function( app, strategy ) {
 			// 	console.log( 'getevents' )
 			// 	console.log( res )
 			// })
+			user.getEvents().then( function( up ) {
+				winston.debug( 'getEvents()' )
+				winston.debug( up )
+			}).catch( function( bla ) {
+				winston.debug( 'getEvents failed' )
+				winston.debug( bla )
+			})
 			res.json( user )
 		}).catch( function( err ) {
 			console.log( 'error' )

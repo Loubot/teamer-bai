@@ -30,6 +30,13 @@ module.exports.controller = function( app, strategy ) {
         }).then( function( event ) {
             winston.debug( 'hu[' )
             winston.debug( event )
+            event.getUsers().then( function( res ) {
+                winston.debug( 'getUsers()' )
+                winston.debug( res )
+            }).catch( function( err ) {
+                winston.debug( 'getUsers() error' )
+                winston.debug( err )
+            })
             res.json( event )
         }).catch( function( err ) {
             winston.debug( 'Find event failed' )
