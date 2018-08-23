@@ -2,10 +2,26 @@
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
-        You are logged in {{ token }}
-        <v-form>
-          <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
+        <v-form v-model="valid">
+          
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="password"
+            :type="'password'"
+            :rules="nameRules"
+            label="Password"
+            required
+          ></v-text-field>
+
+          <v-btn color="success" v-on:click="createEvent()">Submit</v-btn>
         </v-form>
+        
       </v-layout>
     </v-slide-y-transition>
   </v-container>
@@ -20,30 +36,31 @@
         valid: false,
         nameRules: [],
         emailRules: [],
-        name: '',
-        email:'',
-        token: ''
+        password: '',
+        email:''
       }
     },
     mounted() {
-      this.token = window.localStorage.getItem( 'token' )
+      console.log( this )
     },
     methods: {
       createEvent() {
-        var payload = {creatorId: 1};
 
         this.$http.post(
-            'http://localhost:5000/event',
+            'http://localhost:5000/login',
             {
-              'creatorId':'1'
+              email:this.email,
+              password: this.password
             },
             { headers: {
-                'content-type': 'application/json',
-                "Authorization": "Bearer " + this.token
+                'content-type': 'application/json'
               }
             }
         ).then( function( res ) {
-          console.log( res )
+          
+          window.localStorage.setItem( 'token', res.body )
+          console.log( window.localStorage.getItem( 'token' ) )
+          this.$router.push( { path: '/' } )
         }).catch( function( err ) {
           console.log( err )
         })
