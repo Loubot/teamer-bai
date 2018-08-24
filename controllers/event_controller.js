@@ -20,11 +20,11 @@ module.exports.controller = function( app, strategy ) {
         })
     })
 
-    app.get( '/event/1', function( req, res ) {
+    app.get( '/event/:id', function( req, res ) {
         winston.debug( '/event/1 asspociation' )
         winston.debug( req.params )
         models.Event.findOne({
-            where: { id: 1 }, include: [{ all: true }]
+            where: { id: req.params.id }, include: [{ all: true }]
         }).then( event => {
             winston.debug( 'Got event' )
             winston.debug( event )

@@ -10,12 +10,19 @@ module.exports.controller = function( app, strategy ) {
 		console.log( '/user user_controller')
 
 		models.User.findAll({
+			where: { id: 2 },
 			include: [{
-			  model: models.Event
+				  	model: models.Event,
+				  	attributes: [ 'createdAt'],
+					through: {
+						where: { userId: 2 }
+					}
 			}]
 		}).then( user => {
 			res.json( user )
 		}).catch( err => {
+			winston.debug( 'findall error' )
+			winston.debug( err )
 			res.status( 500 ).json( err )
 		})
 		
