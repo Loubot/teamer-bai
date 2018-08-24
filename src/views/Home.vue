@@ -10,7 +10,7 @@
             </v-form>
           </v-flex >
           <v-flex>
-            <v-btn primary dark @click="dialog = true">Normal</v-btn>
+            <v-btn primary dark @click="dialog = true">Add a user</v-btn>
           </v-flex>
 
           <v-dialog
@@ -22,21 +22,39 @@
           class="headline grey lighten-2"
           primary-title
         >
-          Privacy Policy
+          New player details
         </v-card-title>
 
-        <v-card-text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </v-card-text>
+        <v-form v-model="valid">
+          <v-text-field
+            v-model="phone"
+            :rules="nameRules"
+            :counter="10"
+            label="Phone number"
+            mask="###-#########"
+            append-icon="phone"
+            required
+          ></v-text-field>
 
-        <v-divider></v-divider>
+          <v-text-field
+            v-model="firstName"
+            label="First Name"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="lastName"
+            label="Last Name"
+            required
+          ></v-text-field>
+        </v-form>
 
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
             flat
-            @click="dialog = false"
+            @click="saveUser()"
           >
             I accept
           </v-btn>
@@ -59,9 +77,12 @@
         valid: false,
         nameRules: [],
         emailRules: [],
+        firstName: '',
+        lastName: '',
         name: '',
         email:'',
         token: '',
+        phone: '',
         dialog: false
       }
     },
@@ -70,12 +91,30 @@
     },
     methods: {
       createEvent() {
-        var payload = {creatorId: 1};
-
         this.$http.post(
             'http://localhost:5000/event',
             {
               'creatorId':'1'
+            },
+            { headers: {
+                'content-type': 'application/json',
+                "Authorization": "Bearer " + this.token
+              }
+            }
+        ).then( function( res ) {
+          console.log( res )
+        }).catch( function( err ) {
+          console.log( err )
+        })
+      },
+
+      saveUser() {
+        this.$http.post(
+            'http://localhost:5000/add-user',
+            {
+              firstName: this.firstName,
+              lastName: this.lastName,
+              phone: this.phone
             },
             { headers: {
                 'content-type': 'application/json',

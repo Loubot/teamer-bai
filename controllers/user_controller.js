@@ -28,6 +28,24 @@ module.exports.controller = function( app, strategy ) {
 		
 	})
 
+	app.post( '/add-user', strategy.authenticate(), function( req, res ) {
+		winston.debug( 'user_controller /add-user' )
+		winston.debug( req.body )
+		models.User.create({
+			phone: req.body.phone, 
+			firstName: req.body.firstName,
+			lastName: req.body.lastName
+		}).then( user => {
+			winston.debug( 'User created' )
+			winston.debug( user )
+			res.json( user )
+		}).catch( err => {
+			winston.debug( 'Failed to create user' )
+			winston.debug( err )
+			res.status( 500 ).json( err )
+		})
+	})
+
 
 	
 }
