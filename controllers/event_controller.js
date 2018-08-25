@@ -20,20 +20,19 @@ module.exports.controller = function( app, strategy ) {
         })
     })
 
-    app.get( '/event/1', function( req, res ) {
+    app.get( '/event/:id', function( req, res ) {
         winston.debug( '/event/1 asspociation' )
         winston.debug( req.params )
-        models.Event.findAll({
-            where: {
-                id: 1
-            }
-        }).then( function( event ) {
-            winston.debug( 'hu[' )
+        models.Event.findOne({
+            where: { id: req.params.id }, include: [{ all: true }]
+        }).then( event => {
+            winston.debug( 'Got event' )
             winston.debug( event )
             res.json( event )
-        }).catch( function( err ) {
-            winston.debug( 'Find event failed' )
+        }).catch( err => {
+            winston.debug( 'Find event err' )
             winston.debug( err )
+            res.json( err )
         })
     })
 }

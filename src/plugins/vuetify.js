@@ -12,7 +12,11 @@ import {
   transitions,  
   VTextField,
   VForm,
-  VInput
+  VInput,
+  VBadge,
+  VDialog,
+  VCard,
+  VDivider
 
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -30,6 +34,10 @@ Vue.use(Vuetify, {
     transitions,    
     VTextField,
     VForm,
-    VInput
+    VInput,
+    VBadge,
+    VDialog,
+    VCard,
+    VDivider
   },
 })
