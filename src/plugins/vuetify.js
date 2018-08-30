@@ -18,7 +18,8 @@ import {
   VCard,
   VDivider,
   VDatePicker,
-  VMenu
+  VMenu,
+  VTimePicker
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -41,6 +42,7 @@ Vue.use(Vuetify, {
     VCard,
     VDivider,
     VDatePicker,
-    VMenu
+    VMenu,
+    VTimePicker
   },
 })
