@@ -169,14 +169,14 @@ export default {
   },
   methods: {
     dateFunction() {
-      console.log( this.date )
+      console.log( JSON.stringify( this.date ) )
     },
     createEvent() {
       this.$http
         .post(
           "http://localhost:5000/event",
           {
-            creatorId: "1"
+            data: this.date
           },
           {
             headers: {

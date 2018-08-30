@@ -10,14 +10,15 @@ module.exports.controller = function( app, strategy ) {
         console.log( winston )
         winston.debug( '/event post')
         winston.debug( JSON.stringify( req.body ) )
-        models.Event.create( { creatorId: req.body.creatorId } ).then( function( event ) {
-            winston.debug( 'Created event' )
-            winston.debug( event )
-            res.json( event )
-        }).catch( function( err ) {
-            winston.debug( 'Event creation failed' )
-            winston.debug( err )
-        })
+        res.json( req.body )
+        // models.Event.create( { creatorId: req.body.creatorId } ).then( function( event ) {
+        //     winston.debug( 'Created event' )
+        //     winston.debug( event )
+        //     res.json( event )
+        // }).catch( function( err ) {
+        //     winston.debug( 'Event creation failed' )
+        //     winston.debug( err )
+        // })
     })
 
     app.get( '/event/:id', function( req, res ) {
