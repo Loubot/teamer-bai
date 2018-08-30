@@ -9,7 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       creatorId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      startTime: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      endTime: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
