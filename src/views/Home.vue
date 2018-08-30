@@ -1,94 +1,43 @@
 <template>
   <v-container fill-height>
     <v-layout column fill-height align-center>
-        <v-flex align-center class="center_text">
-          <h3>Create a match</h3>
-          <v-form>
-
-            <v-dialog
-              ref="dialog"
-              v-model="modal"
-              :return-value.sync="date"
-              persistent
-              lazy
-              full-width
-              width="290px"
-            >
-              <v-text-field
-                slot="activator"
-                v-model="date"
-                label="Picker in dialog"
-                prepend-icon="event"
-                readonly
-              ></v-text-field>
-              <v-date-picker v-model="date" scrollable>
-                <v-spacer></v-spacer>
-                <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-                <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
-              </v-date-picker>
-            </v-dialog>
-
-            <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
-            
-          </v-form>
-        </v-flex >
-        <v-flex>
-          <v-btn primary dark @click="dialog = true">Add a user</v-btn>
-        </v-flex>
-
-      <v-dialog
-          v-model="dialog"
-          width="500"
-        >
-        <v-card>
-          <v-card-title
-            class="headline grey lighten-2"
-            primary-title
+      <v-flex align-center class="center_text">
+        <h3>Create a match</h3>
+        <v-form>
+          
+          <v-menu
+            ref="menu2"
+            :close-on-content-click="false"
+            v-model="menu2"
+            :nudge-right="40"
+            :return-value.sync="date"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
           >
-            New player details
-          </v-card-title>
-
-          <v-form v-model="valid">
             <v-text-field
-              v-model="phone"
-              :rules="nameRules"
-              :counter="10"
-              label="Phone number"
-              mask="###-#########"
-              append-icon="phone"
-              required
+              slot="activator"
+              v-model="date"
+              label="Picker without buttons"
+              prepend-icon="event"
+              readonly
             ></v-text-field>
+            <v-date-picker v-model="date" @input="$refs.menu2.save(date); dateFunction()"></v-date-picker>
 
-            <v-text-field
-              v-model="firstName"
-              label="First Name"
-              required
-            ></v-text-field>
+          </v-menu>
 
-            <v-text-field
-              v-model="lastName"
-              label="Last Name"
-              required
-            ></v-text-field>
-          </v-form>
+          <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
+                
+        </v-form>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="success"
-              @click="saveUser()"
-            >
-              Add player
-            </v-btn>
+      </v-flex >
+      <v-flex>
+        <v-btn primary dark @click="dialog = true">Add a user</v-btn>
+      </v-flex>
 
-            <v-btn color="error"
-              @click="dialog = !dialog"
-            >
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+          
     </v-layout>
       
   </v-container>
@@ -122,6 +71,9 @@ export default {
     this.token = window.localStorage.getItem("token");
   },
   methods: {
+    dateFunction() {
+      console.log( this.date )
+    },
     createEvent() {
       this.$http
         .post(
