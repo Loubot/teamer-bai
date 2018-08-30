@@ -6,6 +6,29 @@
         <v-form>
           
           <v-menu
+            ref="menu1"
+            :close-on-content-click="false"
+            v-model="menu1"
+            :nudge-right="40"
+            :return-value.sync="date"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
+          >
+            <v-text-field
+              slot="activator"
+              v-model="date"
+              label="Picker without buttons"
+              prepend-icon="event"
+              readonly
+            ></v-text-field>
+            <v-date-picker v-model="date" @input="$refs.menu2.save(date); dateFunction()"></v-date-picker>
+
+          </v-menu>
+          
+          <v-menu
             ref="menu2"
             :close-on-content-click="false"
             v-model="menu2"
@@ -54,9 +77,10 @@ export default {
       valid: false,
       nameRules: [],
       emailRules: [],
-      date: null,
+      date: "",
       menu: false,
       modal: false,
+      menu1: false,
       menu2: false,
       firstName: "",
       lastName: "",
