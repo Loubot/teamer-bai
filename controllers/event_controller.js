@@ -29,15 +29,15 @@ module.exports.controller = function( app, strategy ) {
     })
 
     app.get( '/event/:id', strategy.authenticate(), function( req, res ) {
-        eventHelper.cleanText( req.body )
         winston.debug( '/event/1 association' )
-        winston.debug( req.user.id )
+        winston.debug( req.body )
         models.Event.findOne({
             where: { id: req.params.id }, include: [{ all: true }]
         }).then( event => {
             winston.debug( 'Got event' )
+            event.getUsers().then( users => { winston.debug( users )})
             winston.debug( event )
-            res.json( req.user.id )
+            res.json( event )
         }).catch( err => {
             winston.debug( 'Find event err' )
             winston.debug( err )

@@ -10,12 +10,12 @@ module.exports.controller = function( app, strategy ) {
 		console.log( '/user user_controller')
 
 		models.User.findAll({
-			where: { id: 2 },
+			where: { id: 1 },
 			include: [{
 				  	model: models.Event,
 				  	attributes: [ 'createdAt'],
 					through: {
-						where: { userId: 2 }
+						where: { userId: 1 }
 					}
 			}]
 		}).then( user => {
