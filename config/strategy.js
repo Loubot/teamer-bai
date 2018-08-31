@@ -18,8 +18,7 @@ module.exports = function( passport ) {
             if (user) {
                 return done(null, {
                     id: user.id,
-                    email: user.email,
-                    admin: user.admin
+                    email: user.email
                 });
             } else {
                 return done(new Error("User not found"), null);

@@ -9,16 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       creatorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
       },
       startTime: {
-        type: Sequelize.DATE,
-        allowNull: false
+        type: Sequelize.DATE
       },
       endTime: {
-        type: Sequelize.DATE,
-        allowNull: false
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
