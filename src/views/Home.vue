@@ -175,9 +175,7 @@ export default {
       this.$http
         .post(
           "http://localhost:5000/event",
-          {
-            data: this.date
-          },
+          this.date,
           {
             headers: {
               "content-type": "application/json",
