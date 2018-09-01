@@ -10,8 +10,7 @@ module.exports.controller = function( app, strategy ) {
     app.post( '/event', strategy.authenticate(), function( req, res ) {
         
         winston.debug( '/event post')
-        winston.debug( eventHelper.convertStartDate( req.body ) )
-        
+        // eventHelper in ../helpers/        
         models.Event.create( {
             startTime: eventHelper.convertStartDate( req.body ),
             endTime: eventHelper.convertEndDate( req.body ),
@@ -19,6 +18,7 @@ module.exports.controller = function( app, strategy ) {
         } ).then( function( event ) {
             winston.debug( 'Created event' )
             winston.debug( event )
+            event.addUser( req.user.id ) // Add user to event
             res.json( event )
         }).catch( function( err ) {
             winston.debug( 'Event creation failed' )

@@ -28,6 +28,20 @@ module.exports.controller = function( app, strategy ) {
 		
 	})
 
+	app.get( '/users', strategy.authenticate(), ( req, res ) => {
+		winston.debug( '/users user_controller' )
+
+		models.User.findAll().then( users => {
+			winston.debug( 'users' )
+			winston.debug( users )
+			res.json( users )
+		}).catch( err => {
+			winston.debug( 'Find all users error' )
+			winston.debug( err )
+			res.status( 500 ).json( err )
+		})
+	})
+
 	app.post( '/add-user', strategy.authenticate(), function( req, res ) {
 		winston.debug( 'user_controller /add-user' )
 		winston.debug( req.body )
