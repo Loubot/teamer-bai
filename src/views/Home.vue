@@ -49,8 +49,36 @@
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
             </v-flex>
 
+            <v-card> <!-- Events -->
+                <v-toolbar color="teal" dark>
+                    <v-toolbar-side-icon></v-toolbar-side-icon>
+
+                    <v-toolbar-title>Events</v-toolbar-title>
+                </v-toolbar>
+
+                
+
+                <v-divider></v-divider>
+
+                <v-list subheader two-line>
+                    <v-subheader>Hangout notifications</v-subheader>
+
+                    <v-list-tile v-for="(event) in events" >
+                        <v-list-tile-action>
+                            <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox>
+                        </v-list-tile-action>
+
+                        <!-- <v-list-tile-content>
+                            <v-list-tile-title>Notifications</v-list-tile-title>
+                            <v-list-tile-sub-title>Allow notifications</v-list-tile-sub-title>
+                        </v-list-tile-content> -->
+                    </v-list-tile>
+                </v-list>
+            </v-card> <!-- End of events -->
 
             <v-dialog v-model="dialog" width="500">
+                
+
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
                         New player details
@@ -96,7 +124,7 @@
                             <v-list-tile-action>
                                 <v-icon>{{ user.phone }}</v-icon>
                             </v-list-tile-action>
-                            <v-list-tile-action>
+                            <!-- <v-list-tile-action>
                                 <v-list-tile-action-text>{{ user.phone }}</v-list-tile-action-text>
                                 <v-icon v-if="user.firstName" color="grey lighten-1">
                                     star_border
@@ -105,7 +133,7 @@
                                 <v-icon v-else color="yellow darken-2">
                                     star
                                 </v-icon>
-                            </v-list-tile-action>
+                            </v-list-tile-action> -->
                         </v-list-tile>
                     </v-list-group>
                 </v-list>
@@ -127,7 +155,9 @@
                 valid: false,
                 nameRules: [],
                 emailRules: [],
+                events: [],
                 users: [],
+                eventIds: [],
                 date: {
                     startTime: null,
                     endTime: null,
@@ -167,10 +197,28 @@
                 .catch(function(err) {
                     console.log(err);
                 });
+            this.$http
+                .get(
+                    "http://localhost:5000/events", {
+                        headers: {
+                            "content-type": "application/json",
+                            Authorization: "Bearer " + this.token
+                        }
+                    }
+                )
+                .then(function(res) {
+                    console.log(res.data);
+                    this.events = res.data
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         },
         methods: {
-            dateFunction() {
-                console.log(JSON.stringify(this.date))
+            addId( id ) {
+                console.log( id )
+                this.eventIds.push( id )
+                console.log( this.eventIds )
             },
             createEvent() {
                 this.$http

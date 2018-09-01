@@ -19,7 +19,9 @@ import {
   VDivider,
   VDatePicker,
   VMenu,
-  VTimePicker
+  VTimePicker,
+  VSubheader,
+  VCheckbox
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -43,6 +45,8 @@ Vue.use(Vuetify, {
     VDivider,
     VDatePicker,
     VMenu,
-    VTimePicker
+    VTimePicker,
+    VSubheader,
+    VCheckbox
   },
 })

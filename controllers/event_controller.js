@@ -44,4 +44,18 @@ module.exports.controller = function( app, strategy ) {
             res.json( err )
         })
     })
+
+    app.get( '/events', strategy.authenticate(), function( req, res ) {
+        winston.debug( '/events events_controller' )
+        winston.debug( req.body )
+        models.Event.findAll().then( events => {
+            winston.debug( 'Got events' )
+            winston.debug( events )
+            res.json( events )
+        }).catch( err => {
+            winston.debug( 'Find events err' )
+            winston.debug( err )
+            res.json( err )
+        })
+    })
 }
