@@ -77,7 +77,7 @@
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
-                    <v-toolbar-title>Topics</v-toolbar-title>
+                    <v-toolbar-title>Possible players</v-toolbar-title>
 
                     <v-spacer></v-spacer>
 
@@ -87,20 +87,24 @@
                 </v-toolbar>
 
                 <v-list>
-                    <v-list-group v-for="item in items" v-model="item.active" :key="item.title" :prepend-icon="item.action" no-action>
-                        <v-list-tile slot="activator">
+                    <v-list-group>
+                        <v-list-tile v-for="user in users" :key="user.phone" @click="">
                             <v-list-tile-content>
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-
-                        <v-list-tile v-for="subItem in item.items" :key="subItem.title" @click="">
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
+                                <v-list-tile-title>{{ user.phone || user.firstName|| user.email }}</v-list-tile-title>
                             </v-list-tile-content>
 
                             <v-list-tile-action>
-                                <v-icon>{{ subItem.action }}</v-icon>
+                                <v-icon>{{ user.phone }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-action>
+                                <v-list-tile-action-text>{{ user.phone }}</v-list-tile-action-text>
+                                <v-icon v-if="user.firstName" color="grey lighten-1">
+                                    star_border
+                                </v-icon>
+
+                                <v-icon v-else color="yellow darken-2">
+                                    star
+                                </v-icon>
                             </v-list-tile-action>
                         </v-list-tile>
                     </v-list-group>
@@ -123,6 +127,7 @@
                 valid: false,
                 nameRules: [],
                 emailRules: [],
+                users: [],
                 date: {
                     startTime: null,
                     endTime: null,
@@ -147,22 +152,21 @@
         mounted() {
             this.token = window.localStorage.getItem("token");
             this.$http
-                    .get(
-                        "http://localhost:5000/users",
-                        this.date, {
-                            headers: {
-                                "content-type": "application/json",
-                                Authorization: "Bearer " + this.token
-                            }
+                .get(
+                    "http://localhost:5000/users", {
+                        headers: {
+                            "content-type": "application/json",
+                            Authorization: "Bearer " + this.token
                         }
-                    )
-                    .then(function(res) {
-                        console.log(res);
-                        this.users = res.data
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
+                    }
+                )
+                .then(function(res) {
+                    console.log(res.data);
+                    this.users = res.data
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         },
         methods: {
             dateFunction() {
