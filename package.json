@@ -16,6 +16,7 @@
     "passport-jwt": "^4.0.0",
     "sequelize": "^4.38.0",
     "sequelize-cli": "^4.0.0",
+    "textbelt": "0.0.4",
     "vue": "^2.5.16",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
