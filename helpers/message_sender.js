@@ -27,9 +27,14 @@ module.exports = {
                 email: 'louisangelini@gmail.com'
             },
             to: [{
-                email: 'lllouis@yahoo.com',
-                name: 'Aidan'
-            }],
+                    email: 'lllouis@yahoo.com',
+                    name: 'Aidan'
+                },
+                {
+                    email: 'louisangelini@gmail.com',
+                    name: 'Aidan'
+                }
+            ],
             textContent: 'Hello Bollux',
             replyTo: {
                 email: 'louisangelini@gmail.com'
@@ -37,10 +42,10 @@ module.exports = {
             subject: 'Hello'
         }
 
-        // apiInstance.sendTransacEmail(options).then(function(data) {
-        //   console.log('API called successfully. Returned data: ' + data);
-        // }, function(error) {
-        //   console.error(error);
-        // });
+        apiInstance.sendTransacEmail(options).then(function(data) {
+            console.log('API called successfully. Returned data: ' + data);
+        }, function(error) {
+            console.error(error);
+        });
     }
 }

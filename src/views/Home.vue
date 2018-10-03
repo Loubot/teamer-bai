@@ -42,9 +42,16 @@
 
                     <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
 
+                    <v-btn color="info" v-on:click="createEvent()">Create an event</v-btn>
+
                 </v-form>
 
             </v-flex>
+
+            <v-flex>
+                <v-btn color="info" v-on:click="inviteAll()">Invite all</v-btn>
+            </v-flex>
+
             <v-flex>
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
             </v-flex>
@@ -215,6 +222,23 @@
                 });
         },
         methods: {
+            inviteAll() {
+                this.$http.post(
+                        "http://localhost:5000/event/1/add-user",
+                        this.date, {
+                            headers: {
+                                "content-type": "application/json",
+                                Authorization: "Bearer " + this.token
+                            }
+                        }
+                    )
+                    .then(function(res) {
+                        console.log(res);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            },
             addId( id ) {
                 console.log( id )
                 this.eventIds.push( id )

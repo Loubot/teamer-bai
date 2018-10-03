@@ -2,7 +2,6 @@
 
 let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
-let messenger = require( '../helpers/message_sender.js' )
 
 
 module.exports.controller = function( app, strategy ) {
@@ -31,7 +30,7 @@ module.exports.controller = function( app, strategy ) {
 
 	app.get( '/users', strategy.authenticate(), ( req, res ) => {
 		winston.debug( '/users user_controller' )
-		winston.debug( messenger.send_mail() )
+
 		models.User.findAll().then( users => {
 			winston.debug( 'users' )
 			winston.debug( users )

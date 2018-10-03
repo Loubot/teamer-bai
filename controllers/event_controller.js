@@ -4,6 +4,7 @@ let winston = require('../config/winston-config').load_winston()
 let models = require( '../models' )
 let eventHelper = require( '../helpers/event_helper' )
 let text = require('textbelt')
+let messenger = require( '../helpers/message_sender.js' )
 
 
 module.exports.controller = function( app, strategy ) {
@@ -41,30 +42,7 @@ module.exports.controller = function( app, strategy ) {
           }
         winston.debug( opts )
         winston.debug( text )
-        // text.sendText("0851231558", "Textbelt says hello", opts, function( err, go ) {
-        //     winston.debug( 'here ')
-        //     if( err ) {
-        //         winston.debug( 'Message failed' )
-        //         winston.debug( err )
-        //         res.json( err )
-        //     } else {
-        //         winston.debug( 'Message sent' )
-        //         winston.debug( go )
-        //         res.json( go )
-        //     }
         
-        // models.Event.findOne({
-        //     where: { id: req.params.id }, include: [{ all: true }]
-        // }).then( event => {
-        //     winston.debug( 'Got event' )
-        //     event.getUsers().then( users => { winston.debug( users )})
-        //     winston.debug( event )
-        //     res.json( event )
-        // }).catch( err => {
-        //     winston.debug( 'Find event err' )
-        //     winston.debug( err )
-        //     res.json( err )
-        // })
     })
 
     app.get( '/events', strategy.authenticate(), function( req, res ) {
@@ -78,6 +56,23 @@ module.exports.controller = function( app, strategy ) {
             winston.debug( 'Find events err' )
             winston.debug( err )
             res.json( err )
+        })
+    })
+
+    app.post( '/event/:id/add-user', strategy.authenticate(), function( req, res ) {
+        winston.debug( '/event/:id/add-user' )
+        winston.debug( req.params )
+        messenger.send_mail()
+        models.Event.findOne({
+            where: { id: req.params.id }
+        }).then( event => {
+            winston.debug( 'Found event' )
+            winston.debug( event )
+            res.json( event )
+        }).catch( err => {
+            winston.debug( 'Failed to find event' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
         })
     })
 }
