@@ -52,7 +52,7 @@ module.exports.controller = function( app, strategy ) {
         //         winston.debug( go )
         //         res.json( go )
         //     }
-        })
+        
         // models.Event.findOne({
         //     where: { id: req.params.id }, include: [{ all: true }]
         // }).then( event => {

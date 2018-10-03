@@ -14,6 +14,43 @@ app.use( bodyParser.urlencoded ({
 }));
 app.use(bodyParser.json())
 
+var SibApiV3Sdk = require('sib-api-v3-sdk');
+
+var defaultClient = SibApiV3Sdk.ApiClient.instance;
+
+// Configure API key authorization: api-key
+var apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = "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"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//apiKey.apiKeyPrefix['api-key'] = "Token"
+
+var api = new SibApiV3Sdk.AccountApi()
+api.getAccount().then(function(data) {
+  console.log('API called successfully. Returned data: ' + data);
+}, function(error) {
+  console.error(error);
+});
+
+
+var request = require("request");
+// console.log( request )
+var options = { method: 'POST',
+  url: 'https://api.sendinblue.com/v3/smtp/email',
+  headers: { 'api-key': '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' },
+  body: 
+   { tags: [ 'sss' ],
+     sender: { name: 'Louis', email: 'louisangelini@gmail.com' },
+     to: [ { email: 'lllouis@yahoo.com', name: 'Aidan' } ],
+     subject: 'Me balls',
+     replyTo: { email: 'louisangelini@gmail.com', name: 'Louis' },
+     textContent: 'Hell bollux' },
+  json: true };
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
 
 // Initialise passport
 var passport = require("passport");
