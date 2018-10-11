@@ -56,21 +56,22 @@
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
             </v-flex>
 
-            <v-card> <!-- Events -->
+            <v-card>
+                <!-- Events -->
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
                     <v-toolbar-title>Events</v-toolbar-title>
                 </v-toolbar>
 
-                
+
 
                 <v-divider></v-divider>
 
                 <v-list subheader two-line>
                     <v-subheader>Hangout notifications</v-subheader>
 
-                    <v-list-tile v-for="(event) in events" >
+                    <v-list-tile v-for="(event) in events">
                         <v-list-tile-action>
                             <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox>
                         </v-list-tile-action>
@@ -84,7 +85,7 @@
             </v-card> <!-- End of events -->
 
             <v-dialog v-model="dialog" width="500">
-                
+
 
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
@@ -222,6 +223,9 @@
                 });
         },
         methods: {
+            dateFunction() {
+                console.log(JSON.stringify(this.date))
+            },
             inviteAll() {
                 this.$http.post(
                         "http://localhost:5000/event/1/add-user",
@@ -239,10 +243,10 @@
                         console.log(err);
                     });
             },
-            addId( id ) {
-                console.log( id )
-                this.eventIds.push( id )
-                console.log( this.eventIds )
+            addId(id) {
+                console.log(id)
+                this.eventIds.push(id)
+                console.log(this.eventIds)
             },
             createEvent() {
                 this.$http
