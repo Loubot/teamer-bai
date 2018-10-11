@@ -49,10 +49,6 @@
             </v-flex>
 
             <v-flex>
-                <v-btn color="info" v-on:click="inviteAll()">Invite all</v-btn>
-            </v-flex>
-
-            <v-flex>
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
             </v-flex>
 
@@ -69,30 +65,66 @@
                 <v-divider></v-divider>
 
                 <v-list subheader two-line>
-                    <v-subheader>Hangout notifications</v-subheader>
+                    <!-- <v-subheader>Hangout notifications</v-subheader> -->
 
                     <v-list-tile v-for="(event) in events">
                         <v-list-tile-action>
-                            <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox>
+                            <!-- <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox> -->
+                            <p @click="invite_dialog = !invite_dialog">Event#: {{ event.id }}</p> 
                         </v-list-tile-action>
-
+                        
                         <!-- <v-list-tile-content>
                             <v-list-tile-title>Notifications</v-list-tile-title>
                             <v-list-tile-sub-title>Allow notifications</v-list-tile-sub-title>
                         </v-list-tile-content> -->
                     </v-list-tile>
                 </v-list>
+
+                <!-- <v-flex class="center_text">
+                    <v-btn color="info" v-on:click="inviteAll(); invite_dialog = !invite_dialog">Invite all</v-btn>
+                </v-flex> -->
+
             </v-card> <!-- End of events -->
 
-            <v-dialog v-model="dialog" width="500">
+            <div class="text-xs-center"> <!-- Invite dialog -->
+                <v-dialog v-model="invite_dialog" width="500">
+                    <v-card>
+                        <v-card-title class="headline grey lighten-2" primary-title>
+                            Invite Players
+                        </v-card-title>
+
+                        <v-card-text>
+                            <v-list two-line>
+                                
+                                <template v-for="user in users">
+                                    {{ user.firstName }}
+                                </template>
+                                
+                            </v-list>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="primary" flat @click="invite_dialog = false">
+                                Close
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </div> <!-- end of invite dialog -->
 
 
+
+            <v-dialog v-model="dialog" width="500"><!-- Create player dialog -->
+               
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
                         New player details
                     </v-card-title>
 
-                    <v-form v-model="valid">
+                    <v-form v-model="valid" ref="playerForm">
                         <v-text-field v-model="phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
 
                         <v-text-field v-model="firstName" label="First Name" required></v-text-field>
@@ -107,7 +139,7 @@
                         </v-btn>
                     </v-card-actions>
                 </v-card>
-            </v-dialog>
+            </v-dialog>  <!-- End create player dialog -->
 
             <v-card>
                 <v-toolbar color="teal" dark>
@@ -184,7 +216,8 @@
                 email: "",
                 token: "",
                 phone: "",
-                dialog: false
+                dialog: false,
+                invite_dialog: false
             };
         },
         mounted() {
@@ -283,6 +316,8 @@
                     )
                     .then(function(res) {
                         console.log(res);
+                        this.users.push( res.data )
+                        this.$refs.playerForm.reset()
                     })
                     .catch(function(err) {
                         console.log(err);
