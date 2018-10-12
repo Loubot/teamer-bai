@@ -48,7 +48,8 @@ module.exports.controller = function( app, strategy ) {
 		models.User.create({
 			phone: req.body.phone, 
 			firstName: req.body.firstName,
-			lastName: req.body.lastName
+			lastName: req.body.lastName,
+			email: req.body.email
 		}).then( user => {
 			winston.debug( 'User created' )
 			winston.debug( user )

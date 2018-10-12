@@ -2,6 +2,7 @@
     <v-container fill-height>
         <v-layout column fill-height align-center>
             <v-flex align-center class="center_text">
+                <!-- Match create-->
                 <h3>Create a match</h3>
                 <v-form class="vw100">
                     <v-layout row>
@@ -42,37 +43,60 @@
 
                     <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
 
-                    <v-btn color="info" v-on:click="createEvent()">Create an event</v-btn>
-
                 </v-form>
 
-            </v-flex>
+            </v-flex> <!-- End of match create -->
 
             <v-flex>
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
             </v-flex>
 
-            <v-card>
-                <!-- Events -->
+            <v-dialog v-model="dialog" width="500">
+                <!-- Create player dialog -->
+
+                <v-card>
+                    <v-card-title class="headline grey lighten-2" primary-title>
+                        New player details
+                    </v-card-title>
+
+                    <v-form v-model="valid" ref="playerForm">
+                        <v-text-field v-model="phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
+
+                        <v-text-field v-model="firstName" label="First Name" required></v-text-field>
+
+                        <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
+
+                        <v-text-field v-model="email" label="email" :rules="emailRules" required></v-text-field>
+                    </v-form>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" flat @click="saveUser(); dialog=!dialog">
+                            Save User
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog> <!-- End create player dialog -->
+
+            <v-card> <!-- Events -->
+                
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
                     <v-toolbar-title>Events</v-toolbar-title>
                 </v-toolbar>
 
-
-
                 <v-divider></v-divider>
 
                 <v-list subheader two-line>
                     <!-- <v-subheader>Hangout notifications</v-subheader> -->
 
-                    <v-list-tile v-for="(event) in events">
-                        <v-list-tile-action>
+                    <v-list-tile v-for="(event) in events" v-bind:key="event.id">
+                        <v-list-tile-action :key="event.id">
                             <!-- <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox> -->
-                            <p @click="invite_dialog = !invite_dialog">Event#: {{ event.id }}</p> 
+                            <p @click="invite_dialog = !invite_dialog">Event#: {{ event.id }}</p>
                         </v-list-tile-action>
-                        
+
                         <!-- <v-list-tile-content>
                             <v-list-tile-title>Notifications</v-list-tile-title>
                             <v-list-tile-sub-title>Allow notifications</v-list-tile-sub-title>
@@ -87,6 +111,7 @@
             </v-card> <!-- End of events -->
 
             <div class="text-xs-center"> <!-- Invite dialog -->
+                
                 <v-dialog v-model="invite_dialog" width="500">
                     <v-card>
                         <v-card-title class="headline grey lighten-2" primary-title>
@@ -95,11 +120,13 @@
 
                         <v-card-text>
                             <v-list two-line>
-                                
+
                                 <template v-for="user in users">
-                                    {{ user.firstName }}
+                                    <v-list-tile :key="user.id">
+                                        {{ user.firstName || user.email }}
+                                    </v-list-tile>
                                 </template>
-                                
+
                             </v-list>
                         </v-card-text>
 
@@ -107,41 +134,17 @@
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="primary" flat @click="invite_dialog = false">
-                                Close
-                            </v-btn>
+
+                            <v-btn color="success" flat @click="inviteAll()">Invite all</v-btn>
+                            <v-btn color="primary" flat @click="invite_dialog = false">Close</v-btn>
+
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
             </div> <!-- end of invite dialog -->
 
-
-
-            <v-dialog v-model="dialog" width="500"><!-- Create player dialog -->
-               
-                <v-card>
-                    <v-card-title class="headline grey lighten-2" primary-title>
-                        New player details
-                    </v-card-title>
-
-                    <v-form v-model="valid" ref="playerForm">
-                        <v-text-field v-model="phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
-
-                        <v-text-field v-model="firstName" label="First Name" required></v-text-field>
-
-                        <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
-                    </v-form>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" flat @click="saveUser(); dialog=!dialog">
-                            Save User
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>  <!-- End create player dialog -->
-
-            <v-card>
+            <v-card> <!-- list of players -->
+                
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -158,7 +161,7 @@
                     <v-list-group>
                         <v-list-tile v-for="user in users" :key="user.phone" @click="">
                             <v-list-tile-content>
-                                <v-list-tile-title>{{ user.phone || user.firstName|| user.email }}</v-list-tile-title>
+                                <v-list-tile-title>{{ user.firstName || user.phone || user.email }}</v-list-tile-title>
                             </v-list-tile-content>
 
                             <v-list-tile-action>
@@ -177,7 +180,7 @@
                         </v-list-tile>
                     </v-list-group>
                 </v-list>
-            </v-card>
+            </v-card> <!-- end of list of players -->
 
         </v-layout>
 
@@ -188,8 +191,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-    export default {
-        data() {
+    export default { 
+        data() { //data
             return {
                 rules: [],
                 valid: false,
@@ -217,9 +220,13 @@
                 token: "",
                 phone: "",
                 dialog: false,
-                invite_dialog: false
+                invite_dialog: false,
+                emailRules: [
+                    v => !!v || 'E-mail is required',
+                    v => /.+@.+/.test(v) || 'E-mail must be valid'
+                ]
             };
-        },
+        }, //end of data
         mounted() {
             this.token = window.localStorage.getItem("token");
             this.$http
@@ -293,6 +300,7 @@
                         }
                     )
                     .then(function(res) {
+                        this.events.push(res.body)
                         console.log(res);
                     })
                     .catch(function(err) {
@@ -306,7 +314,8 @@
                         "http://localhost:5000/add-user", {
                             firstName: this.firstName,
                             lastName: this.lastName,
-                            phone: this.phone
+                            phone: this.phone,
+                            email: this.email
                         }, {
                             headers: {
                                 "content-type": "application/json",
@@ -316,7 +325,7 @@
                     )
                     .then(function(res) {
                         console.log(res);
-                        this.users.push( res.data )
+                        this.users.push(res.data)
                         this.$refs.playerForm.reset()
                     })
                     .catch(function(err) {

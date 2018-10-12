@@ -59,10 +59,17 @@ module.exports.controller = function( app, strategy ) {
         })
     })
 
+    app.post( '/invite-all/:id', strategy.authenticate(), function( req, res ) {
+        winston.debug( '/invite-all events_controller' )
+        winston.debug( req.params )
+        
+
+    })
+
     app.post( '/event/:id/add-user', strategy.authenticate(), function( req, res ) {
         winston.debug( '/event/:id/add-user' )
         winston.debug( req.params )
-        messenger.send_mail()
+        messenger.invite_players()
         models.Event.findOne({
             where: { id: req.params.id }
         }).then( event => {
