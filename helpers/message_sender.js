@@ -49,7 +49,7 @@ module.exports = {
         });
     },
 
-    invite_players: function(player_list) {
+    invite_players: function(player_list, eventId ) {
         winston.debug('Attempting to send invite all mail')
         winston.debug('1')
 
@@ -62,7 +62,7 @@ module.exports = {
                 email: 'louisangelini@gmail.com'
             },
             to: createEmailList(player_list),
-            textContent: 'Hello Bollux',
+            textContent: buildUrl( eventId ),
             replyTo: {
                 email: 'louisangelini@gmail.com'
             },
@@ -91,4 +91,8 @@ var createEmailList = function(player_list) {
     winston.debug( 'Email list' )
     winston.debug( emailList )
     return emailList
+}
+
+var buildUrl = function( id ) {
+    return 'http://localhost:5000/event/confirmation/' + id
 }

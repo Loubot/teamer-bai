@@ -64,7 +64,7 @@ module.exports.controller = function( app, strategy ) {
         winston.debug( req.params )
         models.User.findAll().then( users => {
             winston.debug( 'Found all users' )
-            messenger.invite_players( users )
+            messenger.invite_players( users, req.params.id )
             res.json( 'hup' )
         }).catch(  err => {
             winston.debug( 'Find all users failed' )
@@ -89,5 +89,11 @@ module.exports.controller = function( app, strategy ) {
             winston.debug( err )
             res.status( 500 ).json( err )
         })
+    })
+
+    app.post( '/event/:id/confirmation/:user', function( req, res ) {
+        winston.debug( 'event/:id/confirmation/:user' )
+        winston.debug( req.params )
+        res.json( 'ok' )
     })
 }
