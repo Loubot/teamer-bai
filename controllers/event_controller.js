@@ -59,17 +59,25 @@ module.exports.controller = function( app, strategy ) {
         })
     })
 
-    app.post( '/invite-all/:id', strategy.authenticate(), function( req, res ) {
+    app.post( '/event/:id/invite-all', strategy.authenticate(), function( req, res ) {
         winston.debug( '/invite-all events_controller' )
         winston.debug( req.params )
-        
+        models.User.findAll().then( users => {
+            winston.debug( 'Found all users' )
+            messenger.invite_players( users )
+            res.json( 'hup' )
+        }).catch(  err => {
+            winston.debug( 'Find all users failed' )
+            winston.debug( err )
+            res.json( err )
+        })
 
     })
 
     app.post( '/event/:id/add-user', strategy.authenticate(), function( req, res ) {
         winston.debug( '/event/:id/add-user' )
         winston.debug( req.params )
-        messenger.invite_players()
+        
         models.Event.findOne({
             where: { id: req.params.id }
         }).then( event => {

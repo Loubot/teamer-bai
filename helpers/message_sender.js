@@ -51,7 +51,7 @@ module.exports = {
 
     invite_players: function(player_list) {
         winston.debug('Attempting to send invite all mail')
-        winston.debug(player_list)
+        winston.debug('1')
 
         var options = {
             method: 'POST',
@@ -72,7 +72,7 @@ module.exports = {
         apiInstance.sendTransacEmail(options).then(function(data) {
             winston.debug('API called successfully. Returned data: ' + data);
         }, function(error) {
-            winston.debug( 'Send in blue call failed')
+            winston.debug('Send in blue call failed')
             winstong.debug(error);
         });
     }
@@ -81,14 +81,14 @@ module.exports = {
 
 
 var createEmailList = function(player_list) {
-
-    return [{
-            email: 'lllouis@yahoo.com',
-            name: 'Aidan'
-        },
-        {
-            email: 'louisangelini@gmail.com',
-            name: 'Aidan'
-        }
-    ]
+    winston.debug('createmaillist called')
+    let index = null
+    let emailList = []
+    for (let player of player_list) {
+        winston.debug( player )
+        emailList.push( { name: ( player.firstName + " " + player.lastName ), email: player.email } )
+    }
+    winston.debug( 'Email list' )
+    winston.debug( emailList )
+    return emailList
 }
