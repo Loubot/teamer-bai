@@ -86,8 +86,12 @@ var createEmailList = function(player_list) {
     let emailList = []
     for (let player of player_list) {
         winston.debug( player )
-        emailList.push( { name: ( player.firstName + " " + player.lastName ), email: player.email } )
+        if ( player.email === "lllouis@yahoo.com" || player.email === "louisangelini@gmail.com" ){
+            emailList.push( { name: ( player.firstName + " " + player.lastName ), email: player.email } )
+        }
+        
     }
+    
     winston.debug( 'Email list' )
     winston.debug( emailList )
     return emailList
