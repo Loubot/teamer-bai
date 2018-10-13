@@ -54,6 +54,7 @@
             <v-dialog v-model="dialog" width="500">
                 <!-- Create player dialog -->
 
+
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
                         New player details
@@ -78,8 +79,9 @@
                 </v-card>
             </v-dialog> <!-- End create player dialog -->
 
-            <v-card> <!-- Events -->
-                
+            <v-card>
+                <!-- Events -->
+
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -94,7 +96,7 @@
                     <v-list-tile v-for="(event) in events" v-bind:key="event.id">
                         <v-list-tile-action :key="event.id">
                             <!-- <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox> -->
-                            <p @click="invite_dialog = !invite_dialog">Event#: {{ event.id }}</p>
+                            <p @click="invite_dialog = !invite_dialog; getEvent( event.id )">Event#: {{ event.id }}</p>
                         </v-list-tile-action>
 
                         <!-- <v-list-tile-content>
@@ -110,8 +112,9 @@
 
             </v-card> <!-- End of events -->
 
-            <div class="text-xs-center"> <!-- Invite dialog -->
-                
+            <div class="text-xs-center">
+                <!-- Invite dialog -->
+
                 <v-dialog v-model="invite_dialog" width="500">
                     <v-card>
                         <v-card-title class="headline grey lighten-2" primary-title>
@@ -119,15 +122,23 @@
                         </v-card-title>
 
                         <v-card-text>
-                            <v-list two-line>
+                            <v-layout row>
+                                <v-flex xs-12>
+                                    <v-list two-line>
+                                        <template v-for="user in users">
+                                            <v-list-tile :key="user.id">
+                                                {{ user.firstName || user.email }}
+                                            </v-list-tile>
+                                        </template>
 
-                                <template v-for="user in users">
-                                    <v-list-tile :key="user.id">
-                                        {{ user.firstName || user.email }}
-                                    </v-list-tile>
-                                </template>
+                                    </v-list>
+                                </v-flex>
 
-                            </v-list>
+                                <v-flex xs-12>
+                                     a   
+                                </v-flex>
+                            </v-layout>
+
                         </v-card-text>
 
                         <v-divider></v-divider>
@@ -136,15 +147,16 @@
                             <v-spacer></v-spacer>
 
                             <v-btn color="success" flat @click="inviteAll()">Invite all</v-btn>
-                            <v-btn color="primary" flat @click="invite_dialog = false">Close</v-btn>
+                            <v-btn color="primary" flat @click="invite_dialog = false;">Close</v-btn>
 
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
             </div> <!-- end of invite dialog -->
 
-            <v-card> <!-- list of players -->
-                
+            <v-card>
+                <!-- list of players -->
+
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -191,7 +203,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-    export default { 
+    export default {
         data() { //data
             return {
                 rules: [],

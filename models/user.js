@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     phone: DataTypes.STRING
-  }, {});
+  }, {
+    // defaultScope: {
+    //   attributes: { exclude: [ 'password' ] }
+    // }
+  });
   User.associate = function(models) {
     User.hasMany( models.Event, { foreignKey: 'creatorId', sourceKey: 'id' } )
     User.belongsToMany( models.Event, { through: 'EventJoins' } )
