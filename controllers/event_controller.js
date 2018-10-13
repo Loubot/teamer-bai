@@ -94,6 +94,25 @@ module.exports.controller = function( app, strategy ) {
     app.post( '/event/:id/confirmation/:user', function( req, res ) {
         winston.debug( 'event/:id/confirmation/:user' )
         winston.debug( req.params )
-        res.json( 'ok' )
+        models.Event.findOne({
+            where: { id: req.params.id }
+        }).then( event => {
+            winston.debug( 'Found event' )
+            winston.debug( event )
+            event.addUser( req.params.user ).then( added => {
+                winston.debug( 'Added user' )
+                winston.debug( added )
+                res.json( added )
+            }).catch( addErr => {
+                winston.debug( 'Add user error' )
+                winston.debug( 'addErr' )
+                res.status( 500 ).json( addErr )
+            })
+            
+        }).catch( err => {
+            winston.debug( 'Failed to find event' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
+        })
     })
 }

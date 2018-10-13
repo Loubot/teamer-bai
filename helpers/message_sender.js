@@ -49,54 +49,69 @@ module.exports = {
         });
     },
 
-    invite_players: function(player_list, eventId ) {
+    invite_players: function(player_list, eventId) {
         winston.debug('Attempting to send invite all mail')
-        winston.debug('1')
 
-        var options = {
-            method: 'POST',
-            url: 'https://api.sendinblue.com/v3/smtp/email',
-            tags: ['ddd'],
-            sender: {
-                name: 'Louis',
-                email: 'louisangelini@gmail.com'
-            },
-            to: createEmailList(player_list),
-            textContent: buildUrl( eventId ),
-            replyTo: {
-                email: 'louisangelini@gmail.com'
-            },
-            subject: 'Hello'
+        let count = 0
+
+        var inviteEmailRecur = function(player_list, count) {
+            winston.debug('createemaillist')
+            winston.debug(createEmailList(player_list[count]))
+            winston.debug('buildurl')
+            winston.debug(buildUrl(eventId, player_list[count].id))
+            if (count === (player_list.length - 1)) return null
+            var options = {
+                method: 'POST',
+                url: 'https://api.sendinblue.com/v3/smtp/email',
+                tags: ['ddd'],
+                sender: {
+                    name: 'Louis',
+                    email: 'louisangelini@gmail.com'
+                },
+                to: createEmailList(player_list[count]),
+                textContent: buildUrl(eventId, player_list[count].id),
+                replyTo: {
+                    email: 'louisangelini@gmail.com'
+                },
+                subject: 'Invite'
+            }
+
+            apiInstance.sendTransacEmail(options).then(function(data) {
+                winston.debug('API called successfully. Returned data: ' + data)
+                inviteEmailRecur(player_list, ++count)
+            }, function(error) {
+                winston.debug('Send in blue call failed')
+                winston.debug(error);
+                inviteEmailRecur(player_list, ++count)
+            })
+
+
         }
 
-        apiInstance.sendTransacEmail(options).then(function(data) {
-            winston.debug('API called successfully. Returned data: ' + data);
-        }, function(error) {
-            winston.debug('Send in blue call failed')
-            winstong.debug(error);
-        });
+        inviteEmailRecur(player_list, count)
+
+
     }
 }
 
 
 
-var createEmailList = function(player_list) {
-    winston.debug('createmaillist called')
-    let index = null
-    let emailList = []
-    for (let player of player_list) {
-        winston.debug( player )
-        if ( player.email === "lllouis@yahoo.com" || player.email === "louisangelini@gmail.com" ){
-            emailList.push( { name: ( player.firstName + " " + player.lastName ), email: player.email } )
-        }
-        
+var createEmailList = function(player) {
+    // winston.debug('createmaillist called')
+    // winston.debug( player )
+
+    if ( player.email === 'lllouis@yahoo.com' || player.email === 'louisangelini@gmail.com' ) {
+        return [{
+            name: player.firstName,
+            email: player.email
+        }]
     }
-    
-    winston.debug( 'Email list' )
-    winston.debug( emailList )
-    return emailList
+
 }
 
-var buildUrl = function( id ) {
-    return 'http://localhost:5000/event/confirmation/' + id
+var buildUrl = function(eventId, playerId) {
+    // winston.debug( 'buildUrl called' )
+    // winston.debug( eventId + '   ' + playerId )
+    // winston.debug ( 'http://localhost:5000/event/' + eventId + '/confirmation/' + playerId )
+    return 'http://localhost:5000/event/' + eventId + '/confirmation/' + playerId
 }
