@@ -20,7 +20,7 @@ module.exports.controller = function(app, strategy) {
         }).then(function(event) {
             winston.debug('Created event')
             winston.debug(event)
-            event.addUser(req.user.id) // Add user to event
+            // event.addUser(req.user.id) // Add user to event
             res.json(event)
         }).catch(function(err) {
             winston.debug('Event creation failed')
@@ -37,10 +37,8 @@ module.exports.controller = function(app, strategy) {
         models.Event.findOne({
 			where: { id: req.params.id },
 			include: [{
-				  	model: models.User,
-					through: {
-						where: { eventId: 1 }
-					}
+                      model: models.User,
+                      attributes: [ 'firstName', 'lastName', 'email' ]
 			}]
 		}).then( user => {
 			res.json( user )
@@ -100,8 +98,8 @@ module.exports.controller = function(app, strategy) {
         })
     })
 
-    app.post('/event/:id/confirmation/:user', function(req, res) {
-        winston.debug('event/:id/confirmation/:user')
+    app.get('/event/:id/confirmation/:user', function(req, res) {
+        winston.debug('event/:id/confirmation/:user events_controller')
         winston.debug(req.params)
         models.Event.findOne({
             where: {

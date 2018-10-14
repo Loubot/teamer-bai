@@ -96,7 +96,7 @@
                     <v-list-tile v-for="(event) in events" v-bind:key="event.id">
                         <v-list-tile-action :key="event.id">
                             <!-- <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox> -->
-                            <p @click="invite_dialog = !invite_dialog; getEvent( event.id )">Event#: {{ event.id }}</p>
+                            <p @click="invite_dialog = !invite_dialog; getEvent( event )">Event#: {{ event.id }}</p>
                         </v-list-tile-action>
 
                         <!-- <v-list-tile-content>
@@ -125,7 +125,9 @@
                             <v-layout row>
                                 <v-flex xs-12>
                                     <v-list two-line>
+                                        All Players 
                                         <template v-for="user in users">
+                                                
                                             <v-list-tile :key="user.id">
                                                 {{ user.firstName || user.email }}
                                             </v-list-tile>
@@ -135,7 +137,13 @@
                                 </v-flex>
 
                                 <v-flex xs-12>
-                                     a   
+                                    Confirmed players
+                                    <template v-for="user in event.Users">
+                                                
+                                        <v-list-tile :key="user.id">
+                                            {{ user.firstName || user.email }}
+                                        </v-list-tile>
+                                    </template>
                                 </v-flex>
                             </v-layout>
 
@@ -146,7 +154,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
 
-                            <v-btn color="success" flat @click="inviteAll()">Invite all</v-btn>
+                            <v-btn color="success" flat @click="inviteAll( event.id )">Invite all</v-btn>
                             <v-btn color="primary" flat @click="invite_dialog = false;">Close</v-btn>
 
                         </v-card-actions>
@@ -154,9 +162,8 @@
                 </v-dialog>
             </div> <!-- end of invite dialog -->
 
-            <v-card>
-                <!-- list of players -->
-
+            <v-card><!-- list of players -->
+                
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -212,6 +219,7 @@
                 emailRules: [],
                 events: [],
                 users: [],
+                event: {},
                 eventIds: [],
                 date: {
                     startTime: null,
@@ -275,12 +283,28 @@
                 });
         },
         methods: {
+            getEvent( event ) {
+                this.event = event
+                this.$http.get(
+                    "http://localhost:5000/event/" + event.id, {
+                        headers: {
+                            "content-type": "application/json",
+                            Authorization: "Bearer " + this.token
+                        }
+                    }
+                ).then( function( res ) {
+                    console.log( res.data )
+                    this.event = res.data
+                }).catch( function( err ) {
+                    console.log( err )
+                })
+            },
             dateFunction() {
                 console.log(JSON.stringify(this.date))
             },
-            inviteAll() {
+            inviteAll( id ) {
                 this.$http.post(
-                        "http://localhost:5000/event/1/add-user",
+                        "http://localhost:5000/event/" + id + "/invite-all",
                         this.date, {
                             headers: {
                                 "content-type": "application/json",
