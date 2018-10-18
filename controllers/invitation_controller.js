@@ -17,4 +17,11 @@ module.exports.controller = function( app, strategy ) {
             res.status( 500 ).json( err )
         })
     })
+
+    app.post( '/invitation/:id', strategy.authenticate(), function( req, res ) {
+        winston.debug( '/invitation/:id invitation_controller' )
+        winston.debug( req.params )
+        winston.debug( req.body )
+        res.json( req.body )
+    })
 }
