@@ -12,8 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     // }
   });
   User.associate = function(models) {
+
+    //Event
     User.hasMany( models.Event, { foreignKey: 'creatorId', sourceKey: 'id' } )
     User.belongsToMany( models.Event, { through: 'EventJoins' } )
+
+    //Invitation
+    User.hasMany( models.Invitation, { foreignKey: 'userId', sourceKey: 'id' } )
   };
   return User;
 };
