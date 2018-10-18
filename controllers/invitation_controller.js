@@ -18,10 +18,20 @@ module.exports.controller = function( app, strategy ) {
         })
     })
 
-    app.post( '/invitation/:id', strategy.authenticate(), function( req, res ) {
+    app.post( '/invitation/event/:id', strategy.authenticate(), function( req, res ) {
         winston.debug( '/invitation/:id invitation_controller' )
         winston.debug( req.params )
         winston.debug( req.body )
-        res.json( req.body )
+        models.Event.findOne({
+            where: { id: req.params.id }
+        }).then( event => {
+            winston.debug( 'Found event' )
+            winston.debug( event )
+            res.json( event )
+        }).catch( err => {
+            winston.debug( 'Failed to find event' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
+        })
     })
 }
