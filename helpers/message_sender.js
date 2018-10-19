@@ -54,7 +54,7 @@ module.exports = {
 
         let count = 0
 
-        var inviteEmailRecur = function(player_list, count) {
+        let inviteEmailRecur = function(player_list, count) {
             winston.debug('createemaillist')
             winston.debug(createEmailList(player_list[count]))
             winston.debug('buildurl')
@@ -75,7 +75,7 @@ module.exports = {
                 },
                 subject: 'Invite'
             }
-            
+
             apiInstance.sendTransacEmail(options).then(function(data) {
                 winston.debug('API called successfully. Returned data: ' + data)
                 inviteEmailRecur(player_list, ++count)
@@ -91,6 +91,38 @@ module.exports = {
         inviteEmailRecur(player_list, count)
 
 
+    },
+
+    send_email: function( body, event ) {
+        winston.debug( 'message_sender.js')
+        winston.debug( body )
+        winston.debug( event )
+
+        // models.User.findOne({
+        //     where: { id: body.userId }
+        // })
+        var options = {
+            method: 'POST',
+            url: 'https://api.sendinblue.com/v3/smtp/email',
+            tags: ['ddd'],
+            sender: {
+                name: 'Louis',
+                email: 'louisangelini@gmail.com'
+            },
+            to: user.email,
+            textContent: buildUrl( event, user.id ),
+            replyTo: {
+                email: 'louisangelini@gmail.com'
+            },
+            subject: 'Invite'
+        }
+
+        apiInstance.sendTransacEmail(options).then(function(data) {
+            winston.debug('API called successfully. Returned data: ' + data)
+        }, function(error) {
+            winston.debug('Send in blue call failed')
+            winston.debug(error)
+        })
     }
 }
 
@@ -105,13 +137,13 @@ var createEmailList = function(player) {
     //     name: player.firstName,
     //     email: player.email
     // }])
-    if ( player.email === 'lllouis@yahoo.com' || player.email === 'louisangelini@gmail.com' ) {
+    if (player.email === 'lllouis@yahoo.com' || player.email === 'louisangelini@gmail.com') {
         return [{
             name: player.firstName,
             email: player.email
         }]
     }
-   
+
 
 }
 
