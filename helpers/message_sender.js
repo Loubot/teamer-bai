@@ -75,7 +75,7 @@ module.exports = {
                 },
                 subject: 'Invite'
             }
-
+            
             apiInstance.sendTransacEmail(options).then(function(data) {
                 winston.debug('API called successfully. Returned data: ' + data)
                 inviteEmailRecur(player_list, ++count)
@@ -100,12 +100,18 @@ var createEmailList = function(player) {
     // winston.debug('createmaillist called')
     // winston.debug( player )
 
+    // winston.debug( 'createEmailList ' )
+    // winston.debug( [{
+    //     name: player.firstName,
+    //     email: player.email
+    // }])
     if ( player.email === 'lllouis@yahoo.com' || player.email === 'louisangelini@gmail.com' ) {
         return [{
             name: player.firstName,
             email: player.email
         }]
     }
+   
 
 }
 

@@ -84,10 +84,7 @@
             </v-dialog> <!-- End create player dialog -->
 
             <!-- Events -->
-            <v-card>
-
-
-
+            <v-card class="width_75 center_text" >
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -96,7 +93,7 @@
 
                 <v-divider></v-divider>
 
-                <v-list subheader two-line>
+                <v-list subheader two-line class="center_text">
                     <!-- <v-subheader>Hangout notifications</v-subheader> -->
 
                     <v-list-tile v-for="(event) in events" v-bind:key="event.id">
@@ -406,7 +403,7 @@
     }
 
     .center_text {
-        text-align: center;
+        text-align: center !important;
     }
 
     ul {
@@ -429,5 +426,8 @@
 
     .float_right {
         float: right !important;
+    }
+    .width_75{
+        width: 75%;
     }
 </style>

@@ -8,16 +8,16 @@ module.exports = {
                 email: 'demo@demo.com',
                 phone: '0851231558'
             },
-            {
-                firstName: 'Aidan',
-                lastName: 'Angelini',
-                email: 'l@b.com',
-                phone: '0877553302'
-            },
+            // {
+            //     firstName: 'Aidan',
+            //     lastName: 'Angelini',
+            //     email: 'lllouis@yahoo.com',
+            //     phone: '0877553302'
+            // },
             {
                 firstName: 'John',
                 lastName: 'Boobs',
-                email: 'b@b.com',
+                email: 'louisangelini@gmail.com',
                 phone: '0877543302'
             },
             {

@@ -4,6 +4,10 @@ import App from './App.vue'
 import router from './router'
 
 import VueResource from 'vue-resource'
+import 'axios-progress-bar/dist/nprogress.css'
+import { loadProgressBar } from 'axios-progress-bar'
+ 
+loadProgressBar()
 
 Vue.use(VueResource)
 
