@@ -327,7 +327,7 @@
             },
             inviteAll(id) {
                 this.$http.post(
-                        "http://localhost:5000/event/" + id + "/invite-all",
+                        "http://localhost:5000/invitation/event/" + id,
 
                         this.invitees, {
                             headers: {

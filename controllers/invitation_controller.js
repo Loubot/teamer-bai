@@ -2,6 +2,7 @@
 
 let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
+let invitation_helper = require( '../helpers/invitation_helper' )
 
 module.exports.controller = function( app, strategy ) {
 
@@ -22,16 +23,7 @@ module.exports.controller = function( app, strategy ) {
         winston.debug( '/invitation/:id invitation_controller' )
         winston.debug( req.params )
         winston.debug( req.body )
-        models.Event.findOne({
-            where: { id: req.params.id }
-        }).then( event => {
-            winston.debug( 'Found event' )
-            winston.debug( event )
-            res.json( event )
-        }).catch( err => {
-            winston.debug( 'Failed to find event' )
-            winston.debug( err )
-            res.status( 500 ).json( err )
-        })
+        invitation_helper.create_invitation( req.body,  req.params )
+        res.json( req.body )
     })
 }
