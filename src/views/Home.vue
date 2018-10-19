@@ -1,8 +1,10 @@
 <template>
     <v-container fill-height>
         <v-layout column fill-height align-center>
+
+            <!-- Match create-->
             <v-flex align-center class="center_text">
-                <!-- Match create-->
+
 
                 <h3>Create a match</h3>
                 <v-form class="vw100">
@@ -52,8 +54,9 @@
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
             </v-flex>
 
+            <!-- Create player dialog -->
             <v-dialog v-model="dialog" width="500">
-                <!-- Create player dialog -->
+
 
 
                 <v-card>
@@ -80,8 +83,9 @@
                 </v-card>
             </v-dialog> <!-- End create player dialog -->
 
+            <!-- Events -->
             <v-card>
-                <!-- Events -->
+
 
 
                 <v-toolbar color="teal" dark>
@@ -114,10 +118,8 @@
 
             </v-card> <!-- End of events -->
 
+            <!-- Invite dialog -->
             <div class="text-xs-center">
-                <!-- Invite dialog -->
-
-
                 <v-dialog v-model="invite_dialog" width="500">
                     <v-card>
                         <v-card-title class="headline grey lighten-2" primary-title>
@@ -131,22 +133,22 @@
                                         All Players
                                         <template v-for="user in users">
 
-                                            
-                                                
+
+
                                             <v-list-tile :key="user.id">
                                                 <v-layout row>
                                                     <v-flex md-9>
                                                         {{ user.firstName || user.email }}
                                                     </v-flex>
                                                     <v-flex md-3>
-                                                        <v-checkbox v-model="invitees" :value='user.id' class='float_right' ></v-checkbox>          
+                                                        <v-checkbox v-model="invitees" :value='user.id' class='float_right'></v-checkbox>
                                                     </v-flex>
                                                 </v-layout>
-                                                
-                                            </v-list-tile>
-                                                
 
-                                            
+                                            </v-list-tile>
+
+
+
                                         </template>
 
                                     </v-list>
@@ -169,7 +171,7 @@
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            
+
                             <v-btn color="success" flat @click="inviteAll( event.id, invitees )">Invite all</v-btn>
                             <v-btn color="primary" flat @click="invite_dialog = false;">Close</v-btn>
 
@@ -178,10 +180,9 @@
                 </v-dialog>
             </div> <!-- end of invite dialog -->
 
+
+            <!-- list of players -->
             <v-card>
-                <!-- list of players -->
-
-
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -222,7 +223,6 @@
         </v-layout>
 
     </v-container>
-
 
 </template>
 
@@ -318,22 +318,21 @@
                     console.log(err)
                 })
             },
-            addOneHour( t ) {
+            addOneHour(t) {
                 var time = 0
                 time = t.substr(0, t.indexOf(':'))
                 time = parseInt(time) + 1
                 this.date.endTime = time.toString() + ":00"
                 console.log(this.date.endTime)
             },
-            setEndDate( d ) {
+            setEndDate(d) {
                 this.date.endDate = d
             },
-            inviteAll( id ) {
+            inviteAll(id) {
                 this.$http.post(
                         "http://localhost:5000/event/" + id + "/invite-all",
-                        
-                        this.invitees,
-                        {
+
+                        this.invitees, {
                             headers: {
                                 "content-type": "application/json",
                                 Authorization: "Bearer " + this.token
@@ -428,5 +427,7 @@
         width: 100% !important;
     }
 
-    .float_right{ float: right !important;}
+    .float_right {
+        float: right !important;
+    }
 </style>
