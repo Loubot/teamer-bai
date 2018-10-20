@@ -23,7 +23,19 @@ module.exports.controller = function( app, strategy ) {
         winston.debug( '/invitation/:id invitation_controller' )
         winston.debug( req.params )
         winston.debug( req.body )
-        invitation_helper.create_invitation( req.body,  req.params )
-        res.json( req.body )
+        models.User.findAll({
+            where: { id: req.body }
+        }).then( users => {
+            winston.debug( 'Found Users' )
+            winston.debug( users )
+            invitation_helper.create_invitation( users, req.params )
+            res.json( req.body )
+        }).catch( err => {
+            winston.debug( 'Find users failed' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
+        })
+        
+        
     })
 }

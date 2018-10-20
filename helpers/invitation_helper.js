@@ -20,12 +20,12 @@ module.exports = {
             winston.debug( users.length )
 
             models.Invitation.create( {
-                userId: users[ count ],
+                userId: users[ count ].id,
                 eventId: event.id
             }).then( invite => {
                 winston.debug( 'Invite created' )
                 winston.debug( invite )
-                messenger.send_email( users[ count ], event )
+                messenger.invite_players( users[ count ].email, event )
                 do_invite_create( users, ++count, event )
             }).catch( err => {
                 winston.debug( err )

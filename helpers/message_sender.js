@@ -93,14 +93,12 @@ module.exports = {
 
     },
 
-    send_email: function( body, event ) {
-        winston.debug( 'message_sender.js')
-        winston.debug( body )
+    send_email: function( users, event ) {
+        winston.debug( 'send_email message_sender.js')
+        winston.debug( users )
         winston.debug( event )
 
-        // models.User.findOne({
-        //     where: { id: body.userId }
-        // })
+        
         var options = {
             method: 'POST',
             url: 'https://api.sendinblue.com/v3/smtp/email',
