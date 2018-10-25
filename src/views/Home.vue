@@ -127,11 +127,10 @@
                             <v-container grid-list-md>
                                 <v-layout row wrap>
                                     <v-flex xs6 >
-                                        <v-list two-line>
-                                            All Players
+                                         All Players
+                                        <v-list two-line dark>
+                                           
                                             <template v-for="user in users">
-
-
 
                                                 <v-list-tile :key="user.id">
                                                     <v-layout row>
@@ -145,8 +144,6 @@
 
                                                 </v-list-tile>
 
-
-
                                             </template>
 
                                         </v-list>
@@ -154,12 +151,15 @@
 
                                     <v-flex xs6 >
                                         Confirmed players
-                                        <template v-for="user in event.Users">
-
-                                            <v-list-tile :key="user.id">
-                                                {{ user.firstName || user.email }}
-                                            </v-list-tile>
-                                        </template>
+                                        <v-list two-line dark>
+                                            <template  v-for="user in event.Users">
+                                                
+                                                <v-list-tile  :key="user.id">
+                                                    {{ user.firstName || user.email }}
+                                                </v-list-tile>
+                                                
+                                            </template>
+                                        </v-list>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
