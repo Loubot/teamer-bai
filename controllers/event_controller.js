@@ -53,7 +53,9 @@ module.exports.controller = function(app, strategy) {
     app.get('/events', strategy.authenticate(), function(req, res) {
         winston.debug('/events events_controller')
         winston.debug(req.body)
-        models.Event.findAll().then(events => {
+        models.Event.findAll({
+            where: { startTime: { $gt: new Date() } }
+        }).then(events => {
             winston.debug('Got events')
             winston.debug(events)
             res.json(events)
