@@ -124,44 +124,45 @@
                         </v-card-title>
 
                         <v-card-text>
-                            <v-layout row>
-                                <v-flex xs-12>
-                                    <v-list two-line>
-                                        All Players
-                                        <template v-for="user in users">
+                            <v-container grid-list-md>
+                                <v-layout row wrap>
+                                    <v-flex xs6 >
+                                        <v-list two-line>
+                                            All Players
+                                            <template v-for="user in users">
 
 
+
+                                                <v-list-tile :key="user.id">
+                                                    <v-layout row>
+                                                        <v-flex >
+                                                            {{ user.firstName || user.email }}
+                                                        </v-flex>
+                                                        <v-flex >
+                                                            <v-checkbox v-model="invitees" :value='user.id' class='float_right'></v-checkbox>
+                                                        </v-flex>
+                                                    </v-layout>
+
+                                                </v-list-tile>
+
+
+
+                                            </template>
+
+                                        </v-list>
+                                    </v-flex>
+
+                                    <v-flex xs6 >
+                                        Confirmed players
+                                        <template v-for="user in event.Users">
 
                                             <v-list-tile :key="user.id">
-                                                <v-layout row>
-                                                    <v-flex md-9>
-                                                        {{ user.firstName || user.email }}
-                                                    </v-flex>
-                                                    <v-flex md-3>
-                                                        <v-checkbox v-model="invitees" :value='user.id' class='float_right'></v-checkbox>
-                                                    </v-flex>
-                                                </v-layout>
-
+                                                {{ user.firstName || user.email }}
                                             </v-list-tile>
-
-
-
                                         </template>
-
-                                    </v-list>
-                                </v-flex>
-
-                                <v-flex xs-12>
-                                    Confirmed players
-                                    <template v-for="user in event.Users">
-
-                                        <v-list-tile :key="user.id">
-                                            {{ user.firstName || user.email }}
-                                        </v-list-tile>
-                                    </template>
-                                </v-flex>
-                            </v-layout>
-
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
                         </v-card-text>
 
                         <v-divider></v-divider>

@@ -20,7 +20,7 @@ module.exports.controller = function( app, strategy ) {
     })
 
     app.post( '/invitation/event/:id', strategy.authenticate(), function( req, res ) {
-        winston.debug( '/invitation/:id invitation_controller' )
+        winston.debug( '/invitation/event/:id invitation_controller' )
         winston.debug( req.params )
         winston.debug( req.body )
         models.User.findAll({
