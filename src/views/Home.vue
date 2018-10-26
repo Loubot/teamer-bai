@@ -3,52 +3,67 @@
         <v-layout column fill-height align-center>
 
             <!-- Match create-->
-            <v-flex align-center class="center_text">
+            <v-dialog v-model="createEventDialog" width="500">
+                <v-btn slot="activator" color="red lighten-2" dark>
+                    Click Me
+                </v-btn>
+
+                <v-card>
+                    <v-card-title class="headline grey lighten-2" primary-title>
+                        Privacy Policy
+                    </v-card-title>
+
+                    <v-card-text>
+                        <h3>Create a match</h3>
+                        <v-form class="vw100">
+                            <v-layout row>
+                                <v-flex xs-6>
+                                    <v-menu ref="menu1" :close-on-content-click="true" v-model="menu1" :nudge-right="40" :return-value.sync="date.startDate" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                                        <v-text-field slot="activator" v-model="date.startDate" label="Start date" prepend-icon="event" readonly></v-text-field>
+                                        <v-date-picker v-model="date.startDate" @input="$refs.menu1.save(date.startDate); setEndDate( date.startDate )"></v-date-picker>
+
+                                    </v-menu>
+                                </v-flex>
+
+                                <v-flex xs-6>
+                                    <v-menu ref="menu3" :close-on-content-click="false" v-model="menu3" :nudge-right="40" :return-value.sync="date.startTime" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+                                        <v-text-field slot="activator" v-model="date.startTime" label="Start time" prepend-icon="access_time" readonly></v-text-field>
+                                        <v-time-picker v-if="menu3" v-model="date.startTime" format="24hr" @change="$refs.menu3.save(date.startTime);addOneHour( date.startTime )"></v-time-picker>
+                                    </v-menu>
+                                </v-flex>
+                            </v-layout>
+
+                            <v-layout row>
+                                <v-flex>
+                                    <v-menu ref="menu2" :close-on-content-click="false" v-model="menu2" :nudge-right="40" :return-value.sync="date.endDate" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                                        <v-text-field slot="activator" v-model="date.endDate" label="End date" prepend-icon="event" readonly></v-text-field>
+                                        <v-date-picker v-model="date.endDate" @input="$refs.menu2.save(date.endDate)"></v-date-picker>
+
+                                    </v-menu>
+                                </v-flex>
+
+                                <v-flex xs6>
+                                    <v-menu ref="menu4" :close-on-content-click="false" v-model="menu4" :nudge-right="40" :return-value.sync="date.endTime" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+                                        <v-text-field slot="activator" v-model="date.endTime" label="End time" prepend-icon="access_time" readonly></v-text-field>
+                                        <v-time-picker v-if="menu4" v-model="date.endTime" format="24hr" @change="$refs.menu4.save(date.endTime)"></v-time-picker>
+                                    </v-menu>
+                                </v-flex>
 
 
-                <h3>Create a match</h3>
-                <v-form class="vw100">
-                    <v-layout row>
-                        <v-flex xs-6>
-                            <v-menu ref="menu1" :close-on-content-click="true" v-model="menu1" :nudge-right="40" :return-value.sync="date.startDate" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                <v-text-field slot="activator" v-model="date.startDate" label="Start date" prepend-icon="event" readonly></v-text-field>
-                                <v-date-picker v-model="date.startDate" @input="$refs.menu1.save(date.startDate); setEndDate( date.startDate )"></v-date-picker>
+                            </v-layout>
 
-                            </v-menu>
-                        </v-flex>
+                        </v-form>
+                    </v-card-text>
 
-                        <v-flex xs-6>
-                            <v-menu ref="menu3" :close-on-content-click="false" v-model="menu3" :nudge-right="40" :return-value.sync="date.startTime" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-                                <v-text-field slot="activator" v-model="date.startTime" label="Start time" prepend-icon="access_time" readonly></v-text-field>
-                                <v-time-picker v-if="menu3" v-model="date.startTime" format="24hr" @change="$refs.menu3.save(date.startTime);addOneHour( date.startTime )"></v-time-picker>
-                            </v-menu>
-                        </v-flex>
-                    </v-layout>
+                    <v-divider></v-divider>
 
-                    <v-layout row>
-                        <v-flex>
-                            <v-menu ref="menu2" :close-on-content-click="false" v-model="menu2" :nudge-right="40" :return-value.sync="date.endDate" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                                <v-text-field slot="activator" v-model="date.endDate" label="End date" prepend-icon="event" readonly></v-text-field>
-                                <v-date-picker v-model="date.endDate" @input="$refs.menu2.save(date.endDate)"></v-date-picker>
-
-                            </v-menu>
-                        </v-flex>
-
-                        <v-flex xs6>
-                            <v-menu ref="menu4" :close-on-content-click="false" v-model="menu4" :nudge-right="40" :return-value.sync="date.endTime" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-                                <v-text-field slot="activator" v-model="date.endTime" label="End time" prepend-icon="access_time" readonly></v-text-field>
-                                <v-time-picker v-if="menu4" v-model="date.endTime" format="24hr" @change="$refs.menu4.save(date.endTime)"></v-time-picker>
-                            </v-menu>
-                        </v-flex>
-
-
-                    </v-layout>
-
-                    <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
-
-                </v-form>
-
-            </v-flex> <!-- End of match create -->
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="success" v-on:click="createEvent()">Create an event</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <!-- End of match create -->
 
             <v-flex>
                 <v-btn primary dark @click="dialog = true">Add a user</v-btn>
@@ -84,7 +99,7 @@
             </v-dialog> <!-- End create player dialog -->
 
             <!-- Events -->
-            <v-card class="width_75 center_text" >
+            <v-card class="width_75 center_text">
                 <v-toolbar color="teal" dark>
                     <v-toolbar-side-icon></v-toolbar-side-icon>
 
@@ -126,18 +141,18 @@
                         <v-card-text>
                             <v-container grid-list-md>
                                 <v-layout row wrap>
-                                    <v-flex xs6 >
-                                         All Players
+                                    <v-flex xs6>
+                                        All Players
                                         <v-list two-line dark>
-                                           
+
                                             <template v-for="user in users">
 
                                                 <v-list-tile :key="user.id">
                                                     <v-layout row>
-                                                        <v-flex >
+                                                        <v-flex>
                                                             {{ user.firstName || user.email }}
                                                         </v-flex>
-                                                        <v-flex >
+                                                        <v-flex>
                                                             <v-checkbox v-model="invitees" :value='user.id' class='float_right'></v-checkbox>
                                                         </v-flex>
                                                     </v-layout>
@@ -149,15 +164,15 @@
                                         </v-list>
                                     </v-flex>
 
-                                    <v-flex xs6 >
+                                    <v-flex xs6>
                                         Confirmed players
                                         <v-list two-line dark>
-                                            <template  v-for="user in event.Users">
-                                                
-                                                <v-list-tile  :key="user.id">
+                                            <template v-for="user in event.Users">
+
+                                                <v-list-tile :key="user.id">
                                                     {{ user.firstName || user.email }}
                                                 </v-list-tile>
-                                                
+
                                             </template>
                                         </v-list>
                                     </v-flex>
@@ -256,6 +271,7 @@
                 email: "",
                 token: "",
                 phone: "",
+                createEventDialog: false,
                 dialog: false,
                 invite_dialog: false,
                 emailRules: [
@@ -428,7 +444,8 @@
     .float_right {
         float: right !important;
     }
-    .width_75{
+
+    .width_75 {
         width: 75%;
     }
 </style>
