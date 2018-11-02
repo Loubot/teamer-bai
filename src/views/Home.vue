@@ -5,12 +5,12 @@
             <!-- Match create-->
             <v-dialog v-model="createEventDialog" width="500">
                 <v-btn slot="activator" color="red lighten-2" dark>
-                    Click Me
+                    Events
                 </v-btn>
 
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
-                        Privacy Policy
+                        Let's play
                     </v-card-title>
 
                     <v-card-text>
@@ -197,20 +197,20 @@
             <!-- list of players -->
             <v-card>
                 <v-toolbar color="teal" dark>
-                    <v-toolbar-side-icon></v-toolbar-side-icon>
+                    <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
 
-                    <v-toolbar-title>Possible players</v-toolbar-title>
+                    <v-toolbar-title>Saved Players</v-toolbar-title>
 
                     <v-spacer></v-spacer>
 
-                    <v-btn icon>
+                    <!-- <v-btn icon>
                         <v-icon>more_vert</v-icon>
-                    </v-btn>
+                    </v-btn> -->
                 </v-toolbar>
 
                 <v-list>
                     <v-list-group>
-                        <v-list-tile v-for="user in users" :key="user.phone" @click="">
+                        <v-list-tile v-for="user in users" :key="user.phone" @click="edit_player = true; setPlayer( user )">
                             <v-list-tile-content>
                                 <v-list-tile-title>{{ user.firstName || user.phone || user.email }}</v-list-tile-title>
                             </v-list-tile-content>
@@ -233,6 +233,38 @@
                 </v-list>
             </v-card> <!-- end of list of players -->
 
+            <!-- Edit player dialog -->
+            <v-dialog v-model="edit_player" width="500">
+
+                <v-card dark>
+                    <v-card-title class="headline grey darken-1" primary-title>
+                        Edit user details
+                    </v-card-title>
+
+                    <v-card-text>
+                        <v-form v-model="valid">
+                            <v-text-field v-model="player.firstName" :rules="nameRules" :counter="10" label="First Name" required></v-text-field>
+                            <v-text-field v-model="player.lastName" :rules="nameRules" :counter="10" label="Last Name" required></v-text-field>
+                            <v-text-field v-model="player.phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
+                            <v-text-field v-model="player.email" :rules="emailRules" label="E-mail" required></v-text-field>
+                        </v-form>
+                    </v-card-text>
+
+                   
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="light-green lighten-2" class="white--text" @click="saveUser()">
+                            Save
+                        </v-btn>
+                        
+                        <v-btn color="purple" class="white--text" @click="edit_player = false">
+                            Close
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <!-- End of edit player dialog -->
         </v-layout>
 
     </v-container>
@@ -265,6 +297,8 @@
                 menu2: false,
                 menu3: false,
                 menu4: false,
+                player: {},
+                edit_player: false,
                 firstName: "",
                 lastName: "",
                 name: "",
@@ -316,6 +350,10 @@
                 });
         },
         methods: {
+            setPlayer(player) {
+                console.log(player)
+                this.player = player
+            },
             getEvent(event) {
                 this.event = event
                 this.$http.get(
@@ -389,10 +427,10 @@
                 this.$http
                     .post(
                         "http://localhost:5000/add-user", {
-                            firstName: this.firstName,
-                            lastName: this.lastName,
-                            phone: this.phone,
-                            email: this.email
+                            firstName: this.player.firstName,
+                            lastName: this.player.lastName,
+                            phone: this.player.phone,
+                            email: this.player.email
                         }, {
                             headers: {
                                 "content-type": "application/json",
