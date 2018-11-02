@@ -45,20 +45,49 @@ module.exports.controller = function( app, strategy ) {
 	app.post( '/add-user', strategy.authenticate(), function( req, res ) {
 		winston.debug( 'user_controller /add-user' )
 		winston.debug( req.body )
-		models.User.create({
-			phone: req.body.phone, 
-			firstName: req.body.firstName,
-			lastName: req.body.lastName,
-			email: req.body.email
+		models.User.findOne({
+			where: { id: req.body.id }
 		}).then( user => {
-			winston.debug( 'User created' )
+			winston.debug( 'findOne success' )
 			winston.debug( user )
-			res.json( user )
+			if( user ) {
+				user.update({
+					phone: req.body.phone, 
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
+					email: req.body.email
+				}).then( userUp => {
+					winston.debug( 'User updated' )
+					winston.debug( userUp )
+					models.User.findAll().then( users => {
+						res.json( users )
+					})
+				}).catch( failedUp => {
+					winston.debug( 'Failed to update user' )
+					winston.debug( failedUp )
+					res.status( 500 ).json( failedUp )
+				})
+			}
 		}).catch( err => {
-			winston.debug( 'Failed to create user' )
+			winston.debug( 'Find one failed' )
 			winston.debug( err )
 			res.status( 500 ).json( err )
 		})
+		// models.User.findOne({
+		// 	phone: req.body.phone, 
+		// 	firstName: req.body.firstName,
+		// 	lastName: req.body.lastName,
+		// 	email: req.body.email,
+		// 	id: req.body.id
+		// }).then( user => {
+		// 	winston.debug( 'User created' )
+		// 	winston.debug( user )
+		// 	res.json( user )
+		// }).catch( err => {
+		// 	winston.debug( 'Failed to create user' )
+		// 	winston.debug( err )
+		// 	res.status( 500 ).json( err )
+		// })
 	})
 
 

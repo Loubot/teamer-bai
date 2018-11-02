@@ -66,13 +66,11 @@
             <!-- End of match create -->
 
             <v-flex>
-                <v-btn primary dark @click="dialog = true">Add a user</v-btn>
+                <v-btn primary dark @click="dialog = true; $refs.playerForm.reset()">Add a user</v-btn>
             </v-flex>
 
             <!-- Create player dialog -->
             <v-dialog v-model="dialog" width="500">
-
-
 
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
@@ -80,13 +78,13 @@
                     </v-card-title>
 
                     <v-form v-model="valid" ref="playerForm">
-                        <v-text-field v-model="phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
+                        <v-text-field v-model="player.phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
 
-                        <v-text-field v-model="firstName" label="First Name" required></v-text-field>
+                        <v-text-field v-model="player.firstName" label="First Name" required></v-text-field>
 
-                        <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
+                        <v-text-field v-model="player.lastName" label="Last Name" required></v-text-field>
 
-                        <v-text-field v-model="email" label="email" :rules="emailRules" required></v-text-field>
+                        <v-text-field v-model="player.email" label="email" :rules="emailRules" required></v-text-field>
                     </v-form>
 
                     <v-card-actions>
@@ -218,16 +216,7 @@
                             <v-list-tile-action>
                                 <v-icon>{{ user.phone }}</v-icon>
                             </v-list-tile-action>
-                            <!-- <v-list-tile-action>
-                                <v-list-tile-action-text>{{ user.phone }}</v-list-tile-action-text>
-                                <v-icon v-if="user.firstName" color="grey lighten-1">
-                                    star_border
-                                </v-icon>
-
-                                <v-icon v-else color="yellow darken-2">
-                                    star
-                                </v-icon>
-                            </v-list-tile-action> -->
+                            
                         </v-list-tile>
                     </v-list-group>
                 </v-list>
@@ -242,20 +231,19 @@
                     </v-card-title>
 
                     <v-card-text>
-                        <v-form v-model="valid">
+                        <v-form  ref="updatePlayer">
                             <v-text-field v-model="player.firstName" :rules="nameRules" :counter="10" label="First Name" required></v-text-field>
                             <v-text-field v-model="player.lastName" :rules="nameRules" :counter="10" label="Last Name" required></v-text-field>
                             <v-text-field v-model="player.phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
                             <v-text-field v-model="player.email" :rules="emailRules" label="E-mail" required></v-text-field>
                         </v-form>
                     </v-card-text>
-
                    
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="light-green lighten-2" class="white--text" @click="saveUser()">
-                            Save
+                            Update
                         </v-btn>
                         
                         <v-btn color="purple" class="white--text" @click="edit_player = false">
@@ -299,12 +287,7 @@
                 menu4: false,
                 player: {},
                 edit_player: false,
-                firstName: "",
-                lastName: "",
-                name: "",
-                email: "",
                 token: "",
-                phone: "",
                 createEventDialog: false,
                 dialog: false,
                 invite_dialog: false,
@@ -430,7 +413,8 @@
                             firstName: this.player.firstName,
                             lastName: this.player.lastName,
                             phone: this.player.phone,
-                            email: this.player.email
+                            email: this.player.email,
+                            id: this.player.id
                         }, {
                             headers: {
                                 "content-type": "application/json",
@@ -440,8 +424,8 @@
                     )
                     .then(function(res) {
                         console.log(res);
-                        this.users.push(res.data)
-                        this.$refs.playerForm.reset()
+                        this.users= res.data
+                        // this.$refs.playerForm.reset()
                     })
                     .catch(function(err) {
                         console.log(err);
