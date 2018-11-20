@@ -89,7 +89,12 @@ module.exports.controller = function( app, strategy ) {
 					
 				}).catch(Sequelize.ValidationError, function (err) {
 					res.status(422).json( err )
-				}).catch(errs => res.status( 422).json( errs));
+					console.log( err )
+				}).catch(errs => { 
+					console.log( errs )
+					res.status( 422).json( errs)
+				
+				});
 			}
 		})
 		
