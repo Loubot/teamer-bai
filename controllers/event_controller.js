@@ -35,18 +35,20 @@ module.exports.controller = function(app, strategy) {
         winston.debug('/event/:id events_controller')
         winston.debug(req.params)
         models.Event.findOne({
-			where: { id: req.params.id },
-			include: [{
-                      model: models.User,
-                      attributes: [ 'firstName', 'lastName', 'email' ]
-			}]
-		}).then( user => {
-			res.json( user )
-		}).catch( err => {
-			winston.debug( 'findOne error' )
-			winston.debug( err )
-			res.status( 500 ).json( err )
-		})
+            where: {
+                id: req.params.id
+            },
+            include: [{
+                model: models.User,
+                attributes: ['firstName', 'lastName', 'email']
+            }]
+        }).then(user => {
+            res.json(user)
+        }).catch(err => {
+            winston.debug('findOne error')
+            winston.debug(err)
+            res.status(500).json(err)
+        })
 
     })
 
@@ -54,7 +56,11 @@ module.exports.controller = function(app, strategy) {
         winston.debug('/events events_controller')
         winston.debug(req.body)
         models.Event.findAll({
-            where: { startTime: { $gt: new Date() } }
+            where: {
+                startTime: {
+                    $gt: new Date()
+                }
+            }
         }).then(events => {
             winston.debug('Got events')
             winston.debug(events)
@@ -102,26 +108,39 @@ module.exports.controller = function(app, strategy) {
 
     // Get events by user. Id optional. Token should provide userId
 
-    app.get( '/event/user/1', strategy.authenticate(), function( req, res ) {
-        winston.debug( '/event/:userId' )
-        winston.debug( req.headers )
+    app.get('/event/user/1', strategy.authenticate(), function(req, res) {
+        winston.debug('/event/:userId')
+        winston.debug(req.params)
+
+        // models.Event.findAll({
+        //     where: {
+        //         creatorId: req.user.id
+        //     }
+        // }).then( events => {
+        //     winston.debug( 'Got events' )
+        //     winston.debug( events )
+        //     res.json( events )
+        // }).catch( err => {
+        //     winston.debug( 'Failed to get events' )
+        //     winston.debug( err )
+        //     res.json( err )
+        // })
         models.User.findOne({
             where: {
-                id: req.user.id
+                id: req.user.id,
+
             },
             include: [{
                 model: models.Event,
-              through: {
-                  where: { userId: req.user.id }
-              }
-      }]
-        }).then( user => {
-            winston.debug( 'Got user' )
-            winston.debug( user )
-            res.json( user )
-        }).catch( err => {
-            winston.debug( 'Failed to find user' )
-            winston.debug( err )
+                
+            }]
+        }).then(user => {
+            winston.debug('Got user')
+            winston.debug(user)
+            res.json(user)
+        }).catch(err => {
+            winston.debug('Failed to find user')
+            winston.debug(err)
         })
     })
 
