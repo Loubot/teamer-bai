@@ -100,6 +100,31 @@ module.exports.controller = function(app, strategy) {
         })
     })
 
+    // Get events by user. Id optional. Token should provide userId
+
+    app.get( '/event/user/1', strategy.authenticate(), function( req, res ) {
+        winston.debug( '/event/:userId' )
+        winston.debug( req.headers )
+        models.User.findOne({
+            where: {
+                id: req.user.id
+            },
+            include: [{
+                model: models.Event,
+              through: {
+                  where: { userId: req.user.id }
+              }
+      }]
+        }).then( user => {
+            winston.debug( 'Got user' )
+            winston.debug( user )
+            res.json( user )
+        }).catch( err => {
+            winston.debug( 'Failed to find user' )
+            winston.debug( err )
+        })
+    })
+
     app.get('/event/:id/confirmation/:user', function(req, res) {
         winston.debug('event/:id/confirmation/:user events_controller')
         winston.debug(req.params)
