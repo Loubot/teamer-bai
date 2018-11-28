@@ -132,7 +132,11 @@ module.exports.controller = function(app, strategy) {
             },
             include: [{
                 model: models.Event,
-                
+                where: {
+                    startTime: {
+                        $gt: new Date()
+                    }
+                }
             }]
         }).then(user => {
             winston.debug('Got user')

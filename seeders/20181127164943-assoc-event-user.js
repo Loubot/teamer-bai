@@ -6,6 +6,10 @@ module.exports = {
             {
                 EventId: 1,
                 UserId: 1
+            },            
+            {
+                EventId: 2,
+                UserId: 1
             }
             
 
