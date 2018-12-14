@@ -8,7 +8,9 @@ module.exports.controller = function( app, strategy ) {
 
     app.get( '/invitations', strategy.authenticate(), function( req, res ) {
         winston.debug( '/invitations invitation_controller' )
-        models.Invitation.findAll().then( invitations => {
+        models.Invitation.findAll({
+            include: [{ all: true }]
+        }).then( invitations => {
             winston.debug( 'got all invites' )
             winston.debug( invitations )
             res.json( invitations )
@@ -37,5 +39,25 @@ module.exports.controller = function( app, strategy ) {
         })
         
         
+    })
+
+    app.post( '/invitation/add-event', function( req, res ) {
+        winston.debug( '/invitation/add-event invitation_controller' )
+        winston.debug( req.params )
+        winston.debug( req.body )
+        models.Event.findOne( { where: { id: 1 } } ).then( event => {
+            models.Invitation.findOne( { where: { id: 1 } } ).then( invite => {
+                winston.debug( 'Found invite' )
+                winston.debug( invite )
+                event.addInvitation( invite )
+            })
+            winston.debug( 'Found event' )
+            winston.debug( event )
+            res.json( event )
+        }).catch( err => {
+            winston.debug( 'Failed to find event' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
+        })
     })
 }

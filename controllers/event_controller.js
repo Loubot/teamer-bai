@@ -112,19 +112,6 @@ module.exports.controller = function(app, strategy) {
         winston.debug('/event/:userId')
         winston.debug(req.params)
 
-        // models.Event.findAll({
-        //     where: {
-        //         creatorId: req.user.id
-        //     }
-        // }).then( events => {
-        //     winston.debug( 'Got events' )
-        //     winston.debug( events )
-        //     res.json( events )
-        // }).catch( err => {
-        //     winston.debug( 'Failed to get events' )
-        //     winston.debug( err )
-        //     res.json( err )
-        // })
         models.User.findOne({
             where: {
                 id: req.user.id,
