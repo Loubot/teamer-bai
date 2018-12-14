@@ -66,7 +66,8 @@ module.exports.controller = function( app, strategy ) {
         winston.debug( req.params )
         winston.debug( req.body )
         models.Invitation.findAll({
-            where: { userId: req.params.userId }
+            where: { userId: req.params.userId },
+            include: [{ all: true }]
         }).then( invites => {
             winston.debug( 'Found invites by userId' )
             winston.debug( invites )
