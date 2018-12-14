@@ -41,7 +41,7 @@ module.exports.controller = function( app, strategy ) {
         
     })
 
-    app.post( '/invitation/add-event', function( req, res ) {
+    app.post( '/invitation/add-event', strategy.authenticate(), function( req, res ) {
         winston.debug( '/invitation/add-event invitation_controller' )
         winston.debug( req.params )
         winston.debug( req.body )
@@ -56,6 +56,23 @@ module.exports.controller = function( app, strategy ) {
             res.json( event )
         }).catch( err => {
             winston.debug( 'Failed to find event' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
+        })
+    })
+
+    app.get( '/invitations/user/:userId', strategy.authenticate(), function( req, res ) {
+        winston.debug( '/invitations/user/:userId invitation_controller' )
+        winston.debug( req.params )
+        winston.debug( req.body )
+        models.Invitation.findAll({
+            where: { userId: req.params.userId }
+        }).then( invites => {
+            winston.debug( 'Found invites by userId' )
+            winston.debug( invites )
+            res.json( invites )
+        }).catch( err => {
+            winston.debug( 'Failed to find invites by userId' )
             winston.debug( err )
             res.status( 500 ).json( err )
         })
