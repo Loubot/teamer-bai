@@ -74,8 +74,8 @@ module.exports.controller = function(app, strategy) {
     })
 
     //Confirm attendance
-    app.put('/invitations/:id', strategy.authenticate(), function(req, res) {
-        winston.debug('/invitations/:id invitation_controller')
+    app.put('/invitations/:id/user/:userId', strategy.authenticate(), function(req, res) {
+        winston.debug('/invitations/:id/user/:userId invitation_controller')
         winston.debug(req.params)
         winston.debug(req.body)
         models.Invitation.update(
@@ -88,10 +88,17 @@ module.exports.controller = function(app, strategy) {
             ).then(function( rows ) {
                 winston.debug('Invitation updated')
                 winston.debug( rows )
-                models.Invitation.findOne({ where: { id: req.params.id } } ).then( invite => {
-                    winston.debug( 'Found updated record' )
-                    winston.debug( invite )
-                    res.json( invite )
+                models.Invitation.findAll({
+                    where: {
+                        userId: req.params.userId
+                    },
+                    include: [{
+                        all: true
+                    }]
+                }).then( invitations => {
+                    winston.debug( 'Found invitations' )
+                    winston.debug( invitations )
+                    res.json( invitations )
                 })
             })
             .catch(err => {
