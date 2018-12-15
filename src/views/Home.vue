@@ -115,10 +115,7 @@
                             <p @click="invite_dialog = !invite_dialog; getEvent( event )"> {{ event.startTime | timeFormat }}</p>
                         </v-list-tile-action>
 
-                        <!-- <v-list-tile-content>
-                            <v-list-tile-title>Notifications</v-list-tile-title>
-                            <v-list-tile-sub-title>Allow notifications</v-list-tile-sub-title>
-                        </v-list-tile-content> -->
+                        
                     </v-list-tile>
                 </v-list>
 

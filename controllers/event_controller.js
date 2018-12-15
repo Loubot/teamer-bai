@@ -60,7 +60,8 @@ module.exports.controller = function(app, strategy) {
                 startTime: {
                     $gt: new Date()
                 }
-            }
+            },
+            include: [{ all:true }]
         }).then(events => {
             winston.debug('Got events')
             winston.debug(events)

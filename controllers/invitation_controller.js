@@ -93,7 +93,12 @@ module.exports.controller = function(app, strategy) {
                         userId: req.params.userId
                     },
                     include: [{
-                        all: true
+                        all: true,
+                        where: { 
+                            startTime: {
+                                $gt: new Date()
+                            }
+                        }
                     }]
                 }).then( invitations => {
                     winston.debug( 'Found invitations' )
