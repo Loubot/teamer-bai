@@ -104,7 +104,17 @@ module.exports.controller = function( app, strategy ) {
 	app.post( '/update-password', ( req, res ) => {
 		console.log( '/update-password auth_controller' )
 		console.log( req.body )
-		message.reset_password( req.body.email )
-		res.json( 'ok' )
+		// message.reset_password( req.body.email )
+		models.User.findOne({ 
+			where: { email: req.body.email }
+		}).then( user => {
+			pw.hash( 'pass', function( err, hash ) {
+				user.update( { password: hash } ).then( update => {
+					res.json( update )
+				}).catch( err => {
+					res.status( 500 ).json( err )
+				})
+			})
+		})
 	})
 };

@@ -15,7 +15,7 @@ module.exports = {
             //     phone: '0877553302'
             // },
             {
-                firstName: 'John',
+                firstName: 'Dan',
                 lastName: 'Boobs',
                 email: 'louisangelini@gmail.com',
                 phone: '0877543302'

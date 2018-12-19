@@ -23,6 +23,7 @@ module.exports.controller = function(app, strategy) {
         })
     })
 
+        // Create invite to an event
     app.post('/invitation/event/:id', strategy.authenticate(), function(req, res) {
         winston.debug('/invitation/event/:id invitation_controller')
         winston.debug(req.params)
@@ -111,6 +112,25 @@ module.exports.controller = function(app, strategy) {
                 winston.debug(err)
                 res.status(500).json(err)
             })
+    })
+
+    // Confirm attendance from email
+    app.get( '/invitation/:id/confirm', function( req, res ) {
+        winston.debug( '/invitaion/:id/confirm invitation_controller' )
+        winston.debug( req.params )
+        winston.debug( req.body )
+        models.Invitation.findOne( { where: { id: req.params.id } } ).then( invitation => {
+            if( !invitation.confirm ){
+                invitation.update( { confirm: true } ).then( update => {
+                    res.json( update )
+                }).catch( err => {
+                    winston.debug( 'Failed to update invitation' )
+                    res.status( 500 ).json( err )
+                })
+            } else {
+                res.json( invitation )
+            }
+        })
     })
 
     app.get('/invitations/user/:userId', strategy.authenticate(), function(req, res) {
