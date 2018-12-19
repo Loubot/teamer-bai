@@ -15,31 +15,31 @@ module.exports.controller = function( app, strategy ) {
 		if (req.body.email && req.body.password ) {
 	        
 	        models.User.findOne({
-	        			where: { email: req.body.email }
-	        		}).then( user => {
-	        			if (user) {
-	        				pw.verify( user.password, req.body.password, function( err, isValid ) {
-	        				  	if (err) { 
-	        				  		console.log(err)
-	        				  		throw err; 
-	        				  	}
-	        				  	console.log(isValid)
-	        				  	if ( isValid ) {
-	        				  		var payload = {
-	        				  	    	id: user.id
-	        				  		}
-	        				  		var token = jwt.encode(payload, config.jwtSecret);
-	        				  		res.json( token )
-	        				  	} else {
-	        				  		
-	        				  		res.sendStatus( 401 )
-	        				  	}
-	        				})
-				            
-				        } else {
-				            res.sendStatus(401);
-				        }
-	        		})
+				where: { email: req.body.email }
+			}).then( user => {
+				if (user) {
+					pw.verify( user.password, req.body.password, function( err, isValid ) {
+						if (err) { 
+							console.log(err)
+							throw err; 
+						}
+						console.log(isValid)
+						if ( isValid ) {
+							var payload = {
+								id: user.id
+							}
+							var token = jwt.encode(payload, config.jwtSecret);
+							res.json( { token: token, user: user } )
+						} else {
+							
+							res.sendStatus( 401 )
+						}
+					})
+					
+				} else {
+					res.sendStatus(401);
+				}
+			})
 		        
 	    } else {
 	        res.sendStatus(401);
