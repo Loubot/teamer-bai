@@ -117,6 +117,33 @@ module.exports = {
             winston.debug('Send in blue call failed')
             winston.debug(error)
         })
+    },
+
+    reset_password: function( email ) {
+        winston.debug( 'reset_password message_sender.js' )
+        winston.debug( email )
+
+        var options = {
+            method: 'POST',
+            url: 'https://api.sendinblue.com/v3/smtp/email',
+            tags: ['Password reset'],
+            sender: {
+                name: 'Louis',
+                email: 'louisangelini@gmail.com'
+            },
+            to: [{ email: 'lllouis@yahoo.com', name: 'Louis' }],
+            textContent: 'story kid',
+            replyTo: {
+                email: 'louisangelini@gmail.com'
+            },
+            subject: 'Password reset'
+        }
+        apiInstance.sendTransacEmail(options).then(function(data) {
+            winston.debug('API called successfully. Returned data: ' + data)
+        }, function(error) {
+            winston.debug('Send in blue call failed')
+            winston.debug(error)
+        })
     }
 }
 

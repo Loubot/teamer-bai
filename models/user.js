@@ -1,4 +1,5 @@
 'use strict';
+let winston = require('../config/winston-config').load_winston()
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         firstName: DataTypes.STRING,
@@ -32,5 +33,10 @@ module.exports = (sequelize, DataTypes) => {
             sourceKey: 'id'
         })
     };
+
+    User.hook( 'afterCreate', ( user, options ) => {
+        winston.debug( 'User created' )
+        winston.debug( user )
+    } )
     return User;
 };

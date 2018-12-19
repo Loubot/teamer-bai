@@ -6,6 +6,7 @@ let config = require("../config/strategy-config")
 let pw = credential()
 let models = require( '../models' )
 let Sequelize = require( 'sequelize' )
+let message = require('../helpers/message_sender' )
 
 
 module.exports.controller = function( app, strategy ) {
@@ -98,5 +99,12 @@ module.exports.controller = function( app, strategy ) {
 			}
 		})
 		
+	})
+
+	app.post( '/update-password', ( req, res ) => {
+		console.log( '/update-password auth_controller' )
+		console.log( req.body )
+		message.reset_password( req.body.email )
+		res.json( 'ok' )
 	})
 };

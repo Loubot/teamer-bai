@@ -73,21 +73,7 @@ module.exports.controller = function( app, strategy ) {
 			winston.debug( err )
 			res.status( 500 ).json( err )
 		})
-		// models.User.findOne({
-		// 	phone: req.body.phone, 
-		// 	firstName: req.body.firstName,
-		// 	lastName: req.body.lastName,
-		// 	email: req.body.email,
-		// 	id: req.body.id
-		// }).then( user => {
-		// 	winston.debug( 'User created' )
-		// 	winston.debug( user )
-		// 	res.json( user )
-		// }).catch( err => {
-		// 	winston.debug( 'Failed to create user' )
-		// 	winston.debug( err )
-		// 	res.status( 500 ).json( err )
-		// })
+		
 	})
 
 

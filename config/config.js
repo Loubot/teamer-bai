@@ -7,6 +7,7 @@ module.exports = {
     database: 'teamer-bai',
     host: 'localhost',
     dialect: 'mysql',
+    logging: true
   },
   production: {
     username: process.env.PORT_DB_USERNAME,
