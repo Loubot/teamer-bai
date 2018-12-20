@@ -164,7 +164,7 @@ module.exports.controller = function(app, strategy) {
             where: { eventID: req.params.eventId },
             include: [{
                 model: models.User,
-                attributes: [ 'email', 'firstName', 'lastName', 'phone' ]
+                attributes: [ 'email', 'firstName', 'lastName', 'phone', 'id' ]
             }]
         }).then( invitations => {
             winston.debug( 'Got invitations' )

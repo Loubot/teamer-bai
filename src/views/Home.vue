@@ -158,10 +158,10 @@
                                     <v-flex xs6>
                                         Confirmed players
                                         <v-list two-line dark>
-                                            <template v-for="user in event.Users">
+                                            <template v-for="invite in invitations">
 
-                                                <v-list-tile :key="user.id">
-                                                    {{ user.firstName || user.email }}
+                                                <v-list-tile v-if="invite.confirm" :key="invite.User.id">
+                                                    {{ invite.User.firstName || invite.User.email }}
                                                 </v-list-tile>
 
                                             </template>
@@ -334,7 +334,7 @@
             getInvitations( event ) {
                 this.event = event
                 this.$http.get(
-                    "http://localhost:5000/invitation/event/" + event.id, {
+                    "http://localhost:5000/invitations/event/" + event.id, {
                         headers: {
                             "content-type": "application/json",
                             Authorization: "Bearer " + this.token
