@@ -115,7 +115,7 @@
                             <p @click="invite_dialog = !invite_dialog; getInvitations( event )"> {{ event.startTime | timeFormat }}</p>
                         </v-list-tile-action>
 
-                        
+
                     </v-list-tile>
                 </v-list>
 
@@ -209,7 +209,7 @@
                             <v-list-tile-action>
                                 <v-icon>{{ user.phone }}</v-icon>
                             </v-list-tile-action>
-                            
+
                         </v-list-tile>
                     </v-list-group>
                 </v-list>
@@ -224,21 +224,21 @@
                     </v-card-title>
 
                     <v-card-text>
-                        <v-form  ref="updatePlayer">
+                        <v-form ref="updatePlayer">
                             <v-text-field v-model="player.firstName" :rules="nameRules" :counter="10" label="First Name" required></v-text-field>
                             <v-text-field v-model="player.lastName" :rules="nameRules" :counter="10" label="Last Name" required></v-text-field>
                             <v-text-field v-model="player.phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
                             <v-text-field v-model="player.email" :rules="emailRules" label="E-mail" required></v-text-field>
                         </v-form>
                     </v-card-text>
-                   
+
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="light-green lighten-2" class="white--text" @click="saveUser()">
                             Update
                         </v-btn>
-                        
+
                         <v-btn color="purple" class="white--text" @click="edit_player = false">
                             Close
                         </v-btn>
@@ -331,7 +331,7 @@
                 console.log(player)
                 this.player = player
             },
-            getInvitations( event ) {
+            getInvitations(event) {
                 this.event = event
                 this.$http.get(
                     "http://localhost:5000/invitations/event/" + event.id, {
@@ -418,7 +418,7 @@
                     )
                     .then(function(res) {
                         console.log(res);
-                        this.users= res.data
+                        this.users = res.data
                         // this.$refs.playerForm.reset()
                     })
                     .catch(function(err) {

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     Invitation.associate = function(models) {
         Invitation.belongsTo( models.Event, { foreignKey: 'id' } )
-        Invitation.belongsTo( models.User, { foreignKey: 'id' } )
+        Invitation.belongsTo( models.User, { foreignKey: 'userId' } )
     };
     return Invitation;
 };
