@@ -12,10 +12,16 @@ module.exports = (sequelize, DataTypes) => {
         password: DataTypes.STRING,
         phone: DataTypes.STRING
     }, {
-        // defaultScope: {
-        //   attributes: { exclude: [ 'password' ] }
-        // }
+        defaultScope: {
+            attributes: { exclude: ['password'] },
+        },
+        scopes: {
+            withPassword: {
+                attributes: { },
+            }
+        }
     });
+    
     User.associate = function(models) {
 
         //Event

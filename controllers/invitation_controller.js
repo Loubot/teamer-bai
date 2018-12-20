@@ -154,4 +154,26 @@ module.exports.controller = function(app, strategy) {
             res.status(500).json(err)
         })
     })
+
+    // Get invitations grouped by eventId
+    app.get( '/invitations/event/:eventId', strategy.authenticate(), ( req, res ) => {
+        winston.debug( '/invitation/event/:eventId invitation_controller' )
+        winston.debug( req.params )
+        winston.debug( req.body )
+        models.Invitation.findAll({ 
+            where: { eventID: req.params.eventId },
+            include: [{
+                model: models.User,
+                attributes: [ 'email', 'firstName', 'lastName', 'phone' ]
+            }]
+        }).then( invitations => {
+            winston.debug( 'Got invitations' )
+            winston.debug( invitations )
+            res.json( invitations )
+        }).catch( err => {
+            winston.debug( 'Failed to find invitations' )
+            winston.debug( err )
+            res.status( 500 ).json( err )
+        })
+    })
 }

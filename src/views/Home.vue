@@ -112,16 +112,12 @@
                     <v-list-tile v-for="(event) in events" v-bind:key="event.id">
                         <v-list-tile-action :key="event.id">
                             <!-- <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox> -->
-                            <p @click="invite_dialog = !invite_dialog; getEvent( event )"> {{ event.startTime | timeFormat }}</p>
+                            <p @click="invite_dialog = !invite_dialog; getInvitations( event )"> {{ event.startTime | timeFormat }}</p>
                         </v-list-tile-action>
 
                         
                     </v-list-tile>
                 </v-list>
-
-                <!-- <v-flex class="center_text">
-                    <v-btn color="info" v-on:click="inviteAll(); invite_dialog = !invite_dialog">Invite all</v-btn>
-                </v-flex> -->
 
             </v-card> <!-- End of events -->
 
@@ -268,6 +264,7 @@
                 events: [],
                 users: [],
                 event: {},
+                invitations: [],
                 eventIds: [],
                 invitees: [],
                 date: {
@@ -334,10 +331,10 @@
                 console.log(player)
                 this.player = player
             },
-            getEvent(event) {
+            getInvitations( event ) {
                 this.event = event
                 this.$http.get(
-                    "http://localhost:5000/event/" + event.id, {
+                    "http://localhost:5000/invitation/event/" + event.id, {
                         headers: {
                             "content-type": "application/json",
                             Authorization: "Bearer " + this.token
@@ -345,7 +342,7 @@
                     }
                 ).then(function(res) {
                     console.log(res.data)
-                    this.event = res.data
+                    this.invitations = res.data
                 }).catch(function(err) {
                     console.log(err)
                 })

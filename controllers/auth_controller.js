@@ -7,6 +7,7 @@ let pw = credential()
 let models = require( '../models' )
 let Sequelize = require( 'sequelize' )
 let message = require('../helpers/message_sender' )
+let winston = require('../config/winston-config').load_winston()
 
 
 module.exports.controller = function( app, strategy ) {
@@ -14,22 +15,24 @@ module.exports.controller = function( app, strategy ) {
 		console.log( 'login' )
 		if (req.body.email && req.body.password ) {
 	        
-	        models.User.findOne({
+	        models.User.scope( 'withPassword' ).findOne({
 				where: { email: req.body.email }
 			}).then( user => {
-				if (user) {
+				if ( user ) {
 					pw.verify( user.password, req.body.password, function( err, isValid ) {
 						if (err) { 
 							console.log(err)
 							throw err; 
 						}
+						user.password = ""
+						winston.debug( user )
 						console.log(isValid)
 						if ( isValid ) {
 							var payload = {
 								id: user.id
 							}
 							var token = jwt.encode(payload, config.jwtSecret);
-							res.json( { token: token, user: user } )
+							res.json( [ token, user ] )
 						} else {
 							
 							res.sendStatus( 401 )
@@ -39,6 +42,9 @@ module.exports.controller = function( app, strategy ) {
 				} else {
 					res.sendStatus(401);
 				}
+			}).catch( err => {
+				winston.debug( 'Failed to find user' )
+				winston.debug( err )
 			})
 		        
 	    } else {
