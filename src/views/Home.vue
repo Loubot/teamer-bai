@@ -403,6 +403,7 @@
             },
 
             saveUser() {
+                console.log( 'saveUser' )
                 this.$http
                     .post(
                         this.$hostname + "/add-user", {
