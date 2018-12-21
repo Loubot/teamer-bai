@@ -294,7 +294,7 @@
         }, //end of data
         mounted() {
             this.token = window.localStorage.getItem("token");
-            console.log( window.location.hostname )
+            console.log( this.$hostname )
             this.$http
                 .get(
                     "http://localhost:5000/users", {

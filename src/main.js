@@ -12,6 +12,8 @@ loadProgressBar()
 
 Vue.use(VueResource)
 
+Vue.prototype.$hostname = window.location.hostname
+
 Vue.config.productionTip = false
 
 Vue.filter( 'timeFormat', function(date) {
