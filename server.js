@@ -7,6 +7,7 @@ let models = require('./models');
 let fs = require( 'fs' );
 let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
+const history = require('connect-history-api-fallback')
 app.use(serveStatic(__dirname + "/dist"));
 
 app.use( bodyParser.urlencoded ({
