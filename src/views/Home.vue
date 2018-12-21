@@ -76,16 +76,17 @@
                     <v-card-title class="headline grey lighten-2" primary-title>
                         New player details
                     </v-card-title>
+                    <v-card-text>
+                        <v-form v-model="valid" ref="playerForm">
+                            <v-text-field v-model="player.phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
 
-                    <v-form v-model="valid" ref="playerForm">
-                        <v-text-field v-model="player.phone" :rules="nameRules" :counter="10" label="Phone number" mask="###-#########" append-icon="phone" required></v-text-field>
+                            <v-text-field v-model="player.firstName" label="First Name" required></v-text-field>
 
-                        <v-text-field v-model="player.firstName" label="First Name" required></v-text-field>
+                            <v-text-field v-model="player.lastName" label="Last Name" required></v-text-field>
 
-                        <v-text-field v-model="player.lastName" label="Last Name" required></v-text-field>
-
-                        <v-text-field v-model="player.email" label="email" :rules="emailRules" required></v-text-field>
-                    </v-form>
+                            <v-text-field v-model="player.email" label="email" :rules="emailRules" required></v-text-field>
+                        </v-form>
+                    </v-card-text>
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
