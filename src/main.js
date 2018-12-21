@@ -12,10 +12,11 @@ loadProgressBar()
 
 Vue.use(VueResource)
 
+console.log( window.location.origin )
 if ( window.location.hostname === "localhost" ){
     Vue.prototype.$hostname = "http://localhost:5000"
 } else {
-    Vue.prototype.$hostname = window.location.hostname
+    Vue.prototype.$hostname = window.location.origin
 }
 
 
