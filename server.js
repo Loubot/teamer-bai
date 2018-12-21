@@ -31,6 +31,11 @@ fs.readdirSync('./controllers').forEach(function (file) {
     }
 });
 
+/* Put catch all route after controller declaration. This preserves /api/* functionality*/
+app.get('/[^\.]+$', function(req, res){
+    res.render( 'index' );
+})
+
 
 
 let port = process.env.PORT || 5000;
