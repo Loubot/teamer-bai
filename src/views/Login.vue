@@ -36,7 +36,7 @@
             createEvent() {
 
                 this.$http.post(
-                    'http://localhost:5000/login', {
+                    this.$hostname + '/login', {
                         email: this.email,
                         password: this.password
                     }, {

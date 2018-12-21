@@ -297,7 +297,7 @@
             console.log( this.$hostname )
             this.$http
                 .get(
-                    "http://localhost:5000/users", {
+                    this.$hostname + "/users", {
                         headers: {
                             "content-type": "application/json",
                             Authorization: "Bearer " + this.token
@@ -313,7 +313,7 @@
                 });
             this.$http
                 .get(
-                    "http://localhost:5000/events", {
+                    this.$hostname + "/events", {
                         headers: {
                             "content-type": "application/json",
                             Authorization: "Bearer " + this.token
@@ -336,7 +336,7 @@
             getInvitations(event) {
                 this.event = event
                 this.$http.get(
-                    "http://localhost:5000/invitations/event/" + event.id, {
+                    this.$hostname + "/invitations/event/" + event.id, {
                         headers: {
                             "content-type": "application/json",
                             Authorization: "Bearer " + this.token
@@ -361,7 +361,7 @@
             },
             inviteAll(id) {
                 this.$http.post(
-                        "http://localhost:5000/invitation/event/" + id,
+                        this.$hostname + "/invitation/event/" + id,
 
                         this.invitees, {
                             headers: {
@@ -385,7 +385,7 @@
             createEvent() {
                 this.$http
                     .post(
-                        "http://localhost:5000/event",
+                        this.$hostname + "/event",
                         this.date, {
                             headers: {
                                 "content-type": "application/json",
@@ -405,7 +405,7 @@
             saveUser() {
                 this.$http
                     .post(
-                        "http://localhost:5000/add-user", {
+                        this.$hostname + "/add-user", {
                             firstName: this.player.firstName,
                             lastName: this.player.lastName,
                             phone: this.player.phone,
