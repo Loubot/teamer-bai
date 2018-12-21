@@ -86,7 +86,7 @@ module.exports.controller = function( app, strategy ) {
 						
 
 						var token = jwt.encode(payload, config.jwtSecret)
-						res.json( token )
+						res.json( [ token, user ] )
 						
 						
 					} else {
