@@ -4,7 +4,7 @@ module.exports = {
   development: {
     username: 'loubot',
     password: 'pass',
-    database: 'teamer-bai',
+    database: 'teamer_bai',
     host: 'localhost',
     dialect: 'mysql',
     logging: true
