@@ -23,7 +23,7 @@ module.exports.controller = function(app, strategy) {
         })
     })
 
-        // Create invite to an event
+    // Create invite to an event
     app.post('/invitation/event/:id', strategy.authenticate(), function(req, res) {
         winston.debug('/invitation/event/:id invitation_controller')
         winston.debug(req.params)
@@ -86,25 +86,25 @@ module.exports.controller = function(app, strategy) {
                         id: req.params.id
                     }
                 }
-            ).then(function( rows ) {
+            ).then(function(rows) {
                 winston.debug('Invitation updated')
-                winston.debug( rows )
+                winston.debug(rows)
                 models.Invitation.findAll({
                     where: {
                         userId: req.params.userId
                     },
                     include: [{
                         all: true,
-                        where: { 
-                            startTime: {
-                                $gt: new Date()
-                            }
-                        }
+                        // where: { 
+                        //     startTime: {
+                        //         $gt: new Date()
+                        //     }
+                        // }
                     }]
-                }).then( invitations => {
-                    winston.debug( 'Found invitations' )
-                    winston.debug( invitations )
-                    res.json( invitations )
+                }).then(invitations => {
+                    winston.debug('Found invitations')
+                    winston.debug(invitations)
+                    res.json(invitations)
                 })
             })
             .catch(err => {
@@ -115,25 +115,31 @@ module.exports.controller = function(app, strategy) {
     })
 
     // Confirm attendance from email
-    app.get( '/invitation/:id/confirm', function( req, res ) {
-        winston.debug( '/invitaion/:id/confirm invitation_controller' )
-        winston.debug( req.params )
-        winston.debug( req.body )
-        models.Invitation.findOne( { where: { id: req.params.id } } ).then( invitation => {
-            if( !invitation.confirm ){
-                invitation.update( { confirm: true } ).then( update => {
-                    res.json( update )
-                }).catch( err => {
-                    winston.debug( 'Failed to update invitation' )
-                    res.status( 500 ).json( err )
+    app.get('/invitation/:id/confirm', function(req, res) {
+        winston.debug('/invitaion/:id/confirm invitation_controller')
+        winston.debug(req.params)
+        winston.debug(req.body)
+        models.Invitation.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then(invitation => {
+            if (!invitation.confirm) {
+                invitation.update({
+                    confirm: true
+                }).then(update => {
+                    res.json(update)
+                }).catch(err => {
+                    winston.debug('Failed to update invitation')
+                    res.status(500).json(err)
                 })
             } else {
-                res.json( invitation )
+                res.json(invitation)
             }
         })
     })
 
-    app.get( '/invitations/user/:userId', strategy.authenticate(), function(req, res) {
+    app.get('/invitations/user/:userId', strategy.authenticate(), function(req, res) {
         winston.debug('/invitations/user/:userId invitation_controller')
         winston.debug(req.params)
         winston.debug(req.body)
@@ -142,7 +148,12 @@ module.exports.controller = function(app, strategy) {
                 userId: req.params.userId
             },
             include: [{
-                all: true
+                model: models.Event,
+                where: {
+                    startTime: {
+                        $gt: new Date()
+                    }
+                }
             }]
         }).then(invites => {
             winston.debug('Found invites by userId')
@@ -156,24 +167,26 @@ module.exports.controller = function(app, strategy) {
     })
 
     // Get invitations grouped by eventId
-    app.get( '/invitations/event/:eventId', strategy.authenticate(), ( req, res ) => {
-        winston.debug( '/invitation/event/:eventId invitation_controller' )
-        winston.debug( req.params )
-        winston.debug( req.body )
-        models.Invitation.findAll({ 
-            where: { eventID: req.params.eventId },
+    app.get('/invitations/event/:eventId', strategy.authenticate(), (req, res) => {
+        winston.debug('/invitation/event/:eventId invitation_controller')
+        winston.debug(req.params)
+        winston.debug(req.body)
+        models.Invitation.findAll({
+            where: {
+                eventID: req.params.eventId
+            },
             include: [{
                 model: models.User,
-                attributes: [ 'email', 'firstName', 'lastName', 'phone', 'id' ]
+                attributes: ['email', 'firstName', 'lastName', 'phone', 'id']
             }]
-        }).then( invitations => {
-            winston.debug( 'Got invitations' )
-            winston.debug( invitations )
-            res.json( invitations )
-        }).catch( err => {
-            winston.debug( 'Failed to find invitations' )
-            winston.debug( err )
-            res.status( 500 ).json( err )
+        }).then(invitations => {
+            winston.debug('Got invitations')
+            winston.debug(invitations)
+            res.json(invitations)
+        }).catch(err => {
+            winston.debug('Failed to find invitations')
+            winston.debug(err)
+            res.status(500).json(err)
         })
     })
 }
