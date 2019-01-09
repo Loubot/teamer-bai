@@ -8,6 +8,12 @@ let fs = require( 'fs' );
 let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 const history = require('connect-history-api-fallback')
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
 
@@ -16,12 +22,7 @@ app.use( bodyParser.urlencoded ({
 }));
 app.use(bodyParser.json())
 
-app.options('/*', function (req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.end();
-  });
+
 
 
 // Initialise passport
