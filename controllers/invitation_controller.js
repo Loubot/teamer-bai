@@ -147,14 +147,14 @@ module.exports.controller = function(app, strategy ) {
             where: {
                 userId: req.params.userId
             },
-            // include: [{
-            //     model: models.Event,
-            //     where: {
-            //         startTime: {
-            //             $gt: new Date()
-            //         }
-            //     }
-            // }]
+            include: [{
+                model: models.Event,
+                where: {
+                    startTime: {
+                        $gt: new Date()
+                    }
+                }
+            }]
         }).then(invites => {
             winston.debug('Found invites by userId')
             winston.debug(invites)
