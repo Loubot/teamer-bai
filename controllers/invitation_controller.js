@@ -1,25 +1,8 @@
 'use strict'
 
-// let winston = require('../config/winston-config').load_winston()
+let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
 let invitation_helper = require('../helpers/invitation_helper')
-var winston = require('winston');
-require('winston-papertrail').Papertrail;
-
-  var winstonPapertrail = new winston.transports.Papertrail({
-	host: 'logs.papertrailapp.com',
-	port: 12345
-  })
-  
-  winstonPapertrail.on('error', function(err) {
-	// Handle, report, or silently ignore connection errors and failures
-  });
-
-  var winston = winston.createLogger({
-	transports: [winstonPapertrail]
-  });
-
-  winston.info('this is my message');
 
 module.exports.controller = function(app, strategy) {
 
@@ -156,7 +139,7 @@ module.exports.controller = function(app, strategy) {
         })
     })
 
-    app.get('/invitations/user/:userId', function(req, res) {
+    app.get('/invitations/user/:userId', strategy.authenticate(), function(req, res) {
         winston.debug('/invitations/user/:userId invitation_controller')
         winston.debug(req.params)
         winston.debug(req.body)
@@ -175,6 +158,7 @@ module.exports.controller = function(app, strategy) {
         }).then(invites => {
             winston.debug('Found invites by userId')
             winston.debug(invites)
+            console.log( invites )
             res.json(invites)
         }).catch(err => {
             winston.debug('Failed to find invites by userId')
