@@ -5,6 +5,11 @@ let models = require('../models')
 let invitation_helper = require('../helpers/invitation_helper')
 
 module.exports.controller = function(app, strategy ) {
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+      });
 
     app.get('/invitations', strategy.authenticate(), function(req, res) {
         winston.debug('/invitations invitation_controller')
