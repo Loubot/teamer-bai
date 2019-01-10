@@ -165,6 +165,6 @@ var createEmailList = function(player) {
 var buildUrl = function( inviteId ) {
     winston.debug( 'buildUrl called' )
     winston.debug( inviteId )
-    winston.debug ( 'http://localhost:5000/invitation/' + inviteId  + '/confirm' )
-    return 'http://localhost:5000/invitation/' + inviteId + '/confirm'
+    winston.debug ( 'https://teamer-bai.herokuapp.com/invitation/' + inviteId  + '/confirm' )
+    return 'https://teamer-bai.herokuapp.com/invitation/' + inviteId + '/confirm'
 }
