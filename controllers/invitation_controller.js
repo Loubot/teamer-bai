@@ -1,8 +1,25 @@
 'use strict'
 
-let winston = require('../config/winston-config').load_winston()
+// let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
 let invitation_helper = require('../helpers/invitation_helper')
+var winston = require('winston');
+require('winston-papertrail').Papertrail;
+
+  var winstonPapertrail = new winston.transports.Papertrail({
+	host: 'logs.papertrailapp.com',
+	port: 12345
+  })
+  
+  winstonPapertrail.on('error', function(err) {
+	// Handle, report, or silently ignore connection errors and failures
+  });
+
+  var winston = winston.createLogger({
+	transports: [winstonPapertrail]
+  });
+
+  winston.info('this is my message');
 
 module.exports.controller = function(app, strategy) {
 
