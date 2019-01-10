@@ -15,7 +15,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin,Authorization, XMLHttpRequest, X-Requested-With, Content-Type, application/x-www-form-urlencoded, Accept");
     next();
   });
-app.use(history());
+app.use(history({ disableDotRule: true }));
 app.use(serveStatic(__dirname + "/dist"));
 
 app.use( bodyParser.urlencoded ({
