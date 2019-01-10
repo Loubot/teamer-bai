@@ -10,12 +10,7 @@ let cookieParser = require('cookie-parser');
 const history = require('connect-history-api-fallback')
 let cors = require('cors')
 
-var corsOptions = {
-    origin: 'http://localhost:8080',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-app.options( '*', cors(corsOptions))
+app.options('*', cors())
 
 app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
