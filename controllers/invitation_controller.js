@@ -1,10 +1,10 @@
 'use strict'
 
-// let winston = require('../config/winston-config').load_winston()
+let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
 let invitation_helper = require('../helpers/invitation_helper')
 
-module.exports.controller = function(app, strategy, winston ) {
+module.exports.controller = function(app, strategy ) {
 
     app.get('/invitations', strategy.authenticate(), function(req, res) {
         winston.debug('/invitations invitation_controller')

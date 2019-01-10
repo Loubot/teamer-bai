@@ -2,7 +2,7 @@ let express = require('express');
 let path = require('path');
 let serveStatic = require('serve-static');
 app = express();
-let winston = require('./config/winston-config').load_winston()
+// let winston = require('./config/winston-config').load_winston()
 let models = require('./models');
 let fs = require( 'fs' );
 let bodyParser = require('body-parser');
@@ -36,7 +36,7 @@ let strategy = require('./config/strategy')( passport );
 fs.readdirSync('./controllers').forEach(function (file) {
     if(file.substr(-3) == '.js') {
         let route = require('./controllers/' + file);
-        route.controller( app, strategy, winston );
+        route.controller( app, strategy );
         // route.controller( app, jwt, strategy );
     }
 });
