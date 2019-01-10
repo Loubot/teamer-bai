@@ -144,7 +144,7 @@ module.exports.controller = function(app, strategy ) {
         })
     })
 
-    app.get('/invitations/user/:userId', strategy.authenticate(), function(req, res) {
+    app.get('/invitations/user/:userId', function(req, res) {
         winston.debug('/invitations/user/:userId invitation_controller')
         winston.debug(req.params)
         winston.debug(req.body)
