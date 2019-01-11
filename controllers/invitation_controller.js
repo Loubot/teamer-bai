@@ -88,6 +88,8 @@ module.exports.controller = function(app, strategy ) {
         models.Invitation.findOne({ 
             where: { id: req.params.id }
         }).then( invitation => {
+            winston.debug( 'Found invitation' )
+            winston.debug( invitation )
             invitation.confirm = req.body.confirm
             invitation.save().then( invite => {
                 winston.debug( 'invite saved ' )
