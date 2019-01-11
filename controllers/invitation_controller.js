@@ -84,16 +84,14 @@ module.exports.controller = function(app, strategy ) {
         winston.debug('/invitations/:id/user/:userId invitation_controller')
         winston.debug(req.params)
         winston.debug(req.body)
-        models.Invitation.update(
-                req.body, {
-                    returning: true,
-                    where: {
-                        id: req.params.id
-                    }
-                }
-            ).then(function(rows) {
-                winston.debug('Invitation updated')
-                winston.debug(rows)
+
+        models.Invitation.findOne({ 
+            where: { id: req.params.id }
+        }).then( invitation => {
+            invitation.confirm = req.body.confirm
+            invitation.save().then( invite => {
+                winston.debug( 'invite saved ' )
+                winston.debug( invite )
                 models.Invitation.findAll({
                     where: {
                         userId: req.params.userId
@@ -111,12 +109,45 @@ module.exports.controller = function(app, strategy ) {
                     winston.debug(invitations)
                     res.json(invitations)
                 })
+            }).catch( error => {
+                winston.debug( 'Failed to save invite' )
+                winston.debug( error )
+                res.status( 500 ).json( error )
             })
-            .catch(err => {
-                winston.debug('Failed to update invitaion')
-                winston.debug(err)
-                res.status(500).json(err)
-            })
+        })
+        // models.Invitation.update(
+        //         req.body, {
+        //             returning: true,
+        //             where: {
+        //                 id: req.params.id
+        //             }
+        //         }
+        //     ).then(function(rows) {
+        //         winston.debug('Invitation updated')
+        //         winston.debug(rows)
+        //         models.Invitation.findAll({
+        //             where: {
+        //                 userId: req.params.userId
+        //             },
+        //             include: [{
+        //                 all: true,
+        //                 // where: { 
+        //                 //     startTime: {
+        //                 //         $gt: new Date()
+        //                 //     }
+        //                 // }
+        //             }]
+        //         }).then(invitations => {
+        //             winston.debug('Found invitations')
+        //             winston.debug(invitations)
+        //             res.json(invitations)
+        //         })
+        //     })
+        //     .catch(err => {
+        //         winston.debug('Failed to update invitaion')
+        //         winston.debug(err)
+        //         res.status(500).json(err)
+        //     })
     })
 
     // Confirm attendance from email
