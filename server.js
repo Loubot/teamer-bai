@@ -2,7 +2,7 @@ let express = require('express');
 let path = require('path');
 let serveStatic = require('serve-static');
 app = express();
-// let winston = require('./config/winston-config').load_winston()
+let winston = require('./config/winston-config').load_winston()
 let models = require('./models');
 let fs = require( 'fs' );
 let bodyParser = require('body-parser');
@@ -10,6 +10,8 @@ let cookieParser = require('cookie-parser');
 const history = require('connect-history-api-fallback')
 
 app.use(function(req, res, next) {
+    winston.debug( 'Headers start here !!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    winston.debug( req.headers )
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", "Origin,Authorization, XMLHttpRequest, X-Requested-With, Content-Type, application/x-www-form-urlencoded, Accept");
