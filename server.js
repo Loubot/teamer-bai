@@ -15,10 +15,10 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin,Authorization, XMLHttpRequest, X-Requested-With, Content-Type, application/x-www-form-urlencoded, Accept");
     next();
   });
-server.get('/*', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-})
+// app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
+
+
 
 app.use( bodyParser.urlencoded ({
     extended: true
@@ -42,6 +42,10 @@ fs.readdirSync('./controllers').forEach(function (file) {
         // route.controller( app, jwt, strategy );
     }
 });
+
+app.get('*', function (request, response) {
+    response.sendFile(path.resolve(__dirname, 'index.html'));
+  });
 
 
 
