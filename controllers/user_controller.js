@@ -2,6 +2,8 @@
 
 let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
+let credential = require('credential')
+let pw = credential()
 
 
 module.exports.controller = function( app, strategy ) {
@@ -46,16 +48,25 @@ module.exports.controller = function( app, strategy ) {
 		winston.debug( 'user_controller /add-user' )
 		winston.debug( req.body )
 
-		models.User.create({
-			phone: req.body.phone, 
-					firstName: req.body.firstName,
-					lastName: req.body.lastName,
-					email: req.body.email
-		}).then( user => {
-			res.json( user )
-		}).catch( err => {
-			res.status( 500 ).json( err )
+		pw.hash( 'pass', function( err, hash ) {
+			if( err ){
+				return res.status( 500 ).json( 'Failed to hash password' )
+			} else {
+				models.User.create({
+					phone: req.body.phone, 
+							firstName: req.body.firstName,
+							lastName: req.body.lastName,
+							email: req.body.email,
+							password: hash
+				}).then( user => {
+					res.json( user )
+				}).catch( err => {
+					res.status( 500 ).json( err )
+				})
+			}
 		})
+
+		
 		// models.User.findOne({
 		// 	where: { id: req.body.id }
 		// }).then( user => {
