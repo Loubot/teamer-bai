@@ -23,6 +23,9 @@ module.exports.controller = function( app, strategy ) {
 				winston.debug( user )
 				if ( user ) {
 					pw.verify( user.password, req.body.password, function( err, isValid ) {
+						winston.debug( '3' )
+						winston.debug( err )
+						winston.debug( isValid )
 						if (err) { 
 							winston.debug( 'Password verify failed' )
 							console.log(err)
