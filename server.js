@@ -9,14 +9,7 @@ let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 const history = require('connect-history-api-fallback')
 
-app.use(function(req, res, next) {
-    winston.debug( 'Headers start here !!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    winston.debug( req.headers )
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", "Origin,Authorization, XMLHttpRequest, X-Requested-With, Content-Type, application/x-www-form-urlencoded, Accept");
-    next();
-  });
+
 // app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
 
@@ -46,7 +39,7 @@ fs.readdirSync('./controllers').forEach(function (file) {
 });
 
 app.get('*', function (request, response) {
-    response.sendFile(path.resolve(__dirname, 'index.html'));
+    response.sendFile(path.resolve(__dirname, './dist/index.html'));
   });
 
 
