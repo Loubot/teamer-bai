@@ -22,6 +22,7 @@ module.exports.controller = function( app, strategy ) {
 				winston.debug( 'Found user' )
 				winston.debug( user )
 				if ( user ) {
+					winston.debug( ' 2' )
 					pw.verify( user.password, req.body.password, function( err, isValid ) {
 						winston.debug( '3' )
 						winston.debug( err )
