@@ -19,6 +19,8 @@ module.exports.controller = function( app, strategy ) {
 	        models.User.scope( 'withPassword' ).findOne({
 				where: { email: req.body.email }
 			}).then( user => {
+				winston.debug( 'Found user' )
+				winston.debug( user )
 				if ( user ) {
 					pw.verify( user.password, req.body.password, function( err, isValid ) {
 						if (err) { 
