@@ -32,18 +32,20 @@ module.exports.controller = function( app, strategy ) {
 						winston.debug( user )
 						console.log(isValid)
 						if ( isValid ) {
+							winston.debug( 'Password is valid' )
 							var payload = {
 								id: user.id
 							}
 							var token = jwt.encode(payload, config.jwtSecret);
 							res.json( [ token, user ] )
 						} else {
-							
+							winston.debug( 'Password is invalid' )
 							res.sendStatus( 401 )
 						}
 					})
 					
 				} else {
+					winston.debug( 'Failed to find user' )
 					res.sendStatus(401);
 				}
 			}).catch( err => {
