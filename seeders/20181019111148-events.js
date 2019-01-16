@@ -8,25 +8,33 @@ module.exports = {
                 creatorId: 1,
                 startTime: setDate( 1 ),
                 endTime: addHour( setDate( 1 ) ),
-                maxNumber: 10
+                maxNumber: 10,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
                 creatorId: 1,
                 startTime: setDate( 2 ),
                 endTime: addHour( setDate( 2 ) ),
-                maxNumber: 10
+                maxNumber: 10,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
                 creatorId: 1,
                 startTime: setDate( 3 ),
                 endTime: addHour( setDate( 3 ) ),
-                maxNumber: 10
+                maxNumber: 10,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
                 creatorId: 1,
                 startTime: setDate( 4 ),
                 endTime: addHour( setDate( 4 ) ),
-                maxNumber: 10
+                maxNumber: 10,
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
 
         ], {});

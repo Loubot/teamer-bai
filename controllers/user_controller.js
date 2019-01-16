@@ -59,7 +59,13 @@ module.exports.controller = function( app, strategy ) {
 							email: req.body.email,
 							password: hash
 				}).then( user => {
-					res.json( user )
+					winston.debug( 'Added user' )
+					winston.debug( user )
+					models.User.findAll().then( users =>{
+						winston.debug( 'Found all users' )
+						winston.debug( users.length )
+						res.json( users )
+					})
 				}).catch( err => {
 					res.status( 500 ).json( err )
 				})
