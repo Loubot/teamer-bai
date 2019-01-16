@@ -6,6 +6,7 @@ let config = require("../config/strategy-config")
 let pw = credential()
 let models = require( '../models' )
 let Sequelize = require( 'sequelize' )
+const Op = Sequelize.Op
 let message = require('../helpers/message_sender' )
 let winston = require('../config/winston-config').load_winston()
 
@@ -14,10 +15,12 @@ module.exports.controller = function( app, strategy ) {
 	app.post('/login', function( req, res ) {
 		console.log( 'login' )
 		console.log( req.body )
-		if (req.body.email && req.body.password ) {
+		if ( ( req.body.email || req.body.phone ) && req.body.password ) {
 	        
 	        models.User.scope( 'withPassword' ).findOne({
-				where: { email: req.body.email }
+				where: { 
+					[ Op.or ]:  [ { phone: req.body.email }, { email: req.body.email } ]
+				}
 			}).then( user => {
 				winston.debug( 'Found user' )
 				winston.debug( user )
