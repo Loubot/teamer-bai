@@ -9,6 +9,11 @@ let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 const history = require('connect-history-api-fallback')
 
+var cors = require('cors')
+var app = express()
+
+app.use(cors())
+
 app.use(function(req, res, next) {
     winston.debug( 'Headers start here !!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     winston.debug( req.headers )
