@@ -196,7 +196,6 @@ module.exports.controller = function(app, strategy ) {
         }).then(invites => {
             winston.debug('Found invites by userId')
             winston.debug(invites)
-            console.log( invites )
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.json(invites)
         }).catch(err => {

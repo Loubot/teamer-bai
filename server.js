@@ -9,6 +9,7 @@ let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 const history = require('connect-history-api-fallback')
 
+<<<<<<< HEAD
 var cors = require('cors')
 var app = express()
 
@@ -22,6 +23,9 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin,Authorization, XMLHttpRequest, X-Requested-With, Content-Type, application/x-www-form-urlencoded, Accept");
     next();
   });
+=======
+
+>>>>>>> 454b993c7504e622b3d12f44a3cf999f29ed510b
 // app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
 
@@ -51,7 +55,7 @@ fs.readdirSync('./controllers').forEach(function (file) {
 });
 
 app.get('*', function (request, response) {
-    response.sendFile(path.resolve(__dirname, 'index.html'));
+    response.sendFile(path.resolve(__dirname, './dist/index.html'));
   });
 
 

@@ -17,12 +17,20 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+<<<<<<< HEAD
         defaultValue: Sequelize.fn('now')
+=======
+        defaultValue: Sequelize.NOW
+>>>>>>> 454b993c7504e622b3d12f44a3cf999f29ed510b
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+<<<<<<< HEAD
         defaultValue: Sequelize.fn('now')
+=======
+        defaultValue: Sequelize.NOW
+>>>>>>> 454b993c7504e622b3d12f44a3cf999f29ed510b
       }
     });
   },

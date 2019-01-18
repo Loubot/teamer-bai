@@ -4,7 +4,7 @@
             <v-layout column align-center>
                 <v-form v-model="valid">
 
-                    <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+                    <v-text-field v-model="email" validate="'required|phoneOrEmail'" label="E-mail" required></v-text-field>
 
                     <v-text-field v-model="password" :type="'password'" :rules="nameRules" label="Password" required></v-text-field>
 

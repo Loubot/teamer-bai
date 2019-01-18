@@ -6,6 +6,7 @@ let config = require("../config/strategy-config")
 let pw = credential()
 let models = require( '../models' )
 let Sequelize = require( 'sequelize' )
+const Op = Sequelize.Op
 let message = require('../helpers/message_sender' )
 let winston = require('../config/winston-config').load_winston()
 
@@ -13,14 +14,24 @@ let winston = require('../config/winston-config').load_winston()
 module.exports.controller = function( app, strategy ) {
 	app.post('/login', function( req, res ) {
 		console.log( 'login' )
-		if (req.body.email && req.body.password ) {
+		console.log( req.body )
+		if ( ( req.body.email || req.body.phone ) && req.body.password ) {
 	        
 	        models.User.scope( 'withPassword' ).findOne({
-				where: { email: req.body.email }
+				where: { 
+					[ Op.or ]:  [ { phone: req.body.email }, { email: req.body.email } ]
+				}
 			}).then( user => {
+				winston.debug( 'Found user' )
+				winston.debug( user )
 				if ( user ) {
+					winston.debug( ' 2' )
 					pw.verify( user.password, req.body.password, function( err, isValid ) {
+						winston.debug( '3' )
+						winston.debug( err )
+						winston.debug( isValid )
 						if (err) { 
+							winston.debug( 'Password verify failed' )
 							console.log(err)
 							throw err; 
 						}
@@ -28,18 +39,20 @@ module.exports.controller = function( app, strategy ) {
 						winston.debug( user )
 						console.log(isValid)
 						if ( isValid ) {
+							winston.debug( 'Password is valid' )
 							var payload = {
 								id: user.id
 							}
 							var token = jwt.encode(payload, config.jwtSecret);
 							res.json( [ token, user ] )
 						} else {
-							
+							winston.debug( 'Password is invalid' )
 							res.sendStatus( 401 )
 						}
 					})
 					
 				} else {
+					winston.debug( 'Failed to find user' )
 					res.sendStatus(401);
 				}
 			}).catch( err => {
