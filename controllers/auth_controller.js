@@ -120,20 +120,53 @@ module.exports.controller = function( app, strategy ) {
 		
 	})
 
-	app.post( '/update-password', ( req, res ) => {
-		console.log( '/update-password auth_controller' )
-		console.log( req.body )
-		// message.reset_password( req.body.email )
-		models.User.findOne({ 
+	app.put( '/update-password', strategy.authenticate(), ( req, res ) => {
+		winston.debug( '/update-password auth_controller' )
+		winston.debug( req.body )
+		models.User.scope( 'withPassword' ).findOne({
 			where: { email: req.body.email }
 		}).then( user => {
-			pw.hash( 'pass', function( err, hash ) {
-				user.update( { password: hash } ).then( update => {
-					res.json( update )
-				}).catch( err => {
-					res.status( 500 ).json( err )
-				})
+			winston.debug( user )
+			pw.hash( req.body.password, function( err, hash ) {
+				if( err ) {
+					winston.debug( 'Failed to hash pasword' )
+					res.json( 500 ).status( err )
+				} else {
+					winston.debug( 'Hashed password' )
+					winston.debug( hash )
+					user.password = hash
+					user.save().then( updated => {
+						winston.debug( 'Updated user' )
+						winston.debug( updated )
+						res.json( updated )
+					}).catch( fail => {
+						winston.debug( 'Failed to update user' )
+						res.json( 500 ).json( fail )
+					})
+				}
 			})
+			// res.json( user )
+		}).catch( error => {
+			winston.debug( 'Failed to find user' )
+			res.status( 500 ).json( error )
 		})
+		// models.User.scope( 'withPassword' ).findOne({ 
+		// 	where: { email: req.body.email }
+		// }).then( user => {
+		// 	winston.debug( 'Found user' )
+		// 	pw.hash( req.body.password, function( err, hash ) {
+		// 		user.password = hash
+		// 		user.save().then( update => {
+		// 			winstond.debug( 'Found and updated password' )
+		// 			res.json( update )
+		// 		}).catch( err => {
+		// 			res.status( 500 ).json( err )
+		// 		})
+		// 	})
+		// }).catch( err => {
+		// 	winston.debug( 'Failed to find user' )
+		// 	winston.debug( err )
+		// 	res.status( 500 ).json( err )
+		// })
 	})
 };
