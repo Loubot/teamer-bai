@@ -91,32 +91,50 @@ module.exports.controller = function(app, strategy ) {
         }).then( invitation => {
             winston.debug( 'Found invitation' )
             winston.debug( invitation )
+
+            let check = ( req.body.confirm === invitation.confirm )
+            winston.debug( 'Check !!!!!!!!!!!!!!!!!!!!!' + check )
+
+            // If check is true then there was no change. return original 
+            if ( check ) return res.status( 304 ).json( invitation )
+
             invitation.confirm = req.body.confirm
             invitation.save().then( invite => {
                 winston.debug( 'invite saved ' )
                 winston.debug( invite )
-                event_helper.add_to_event( req.body.Event.id, invite )
-                models.Invitation.findAll({
-                    where: {
-                        userId: req.params.userId
-                    },
-                    include: [{
-                        model: models.Event,
-                        where: { 
-                            startTime: {
-                                $gt: new Date()
-                            }
-                        }
-                    }]
-                }).then(invitations => {
-                    winston.debug('Found invitations')
-                    winston.debug(invitations)
-                    res.json(invitations)
-                }).catch( bla => {
-                    winston.debug( 'Failed find all' )
-                    winston.debug( bla )
-                    res.status( 500 ).json( bla )
-                })
+                event_helper.add_to_event( req.body.Event.id, invite, function( err, done ) {
+                    if ( err ) {
+                        return res.status( 405 ).json( err )
+                    } else {
+
+                        models.Invitation.findAll({
+                            where: {
+                                userId: req.params.userId
+                            },
+                            include: [{
+                                model: models.Event,
+                                where: { 
+                                    startTime: {
+                                        $gt: new Date()
+                                    }
+                                }
+                            }]
+                        }).then(invitations => {
+                            winston.debug('Found invitations')
+                            winston.debug(invitations)
+                            res.json(invitations)
+                        }).catch( bla => {
+                            winston.debug( 'Failed find all' )
+                            winston.debug( bla )
+                            res.status( 500 ).json( bla )
+                        })
+
+
+                    }
+                } )
+                
+                
+                
             }).catch( error => {
                 winston.debug( 'Failed to save invite' )
                 winston.debug( error )
