@@ -6,7 +6,7 @@ module.exports = {
             {
                 EventId: 1,
                 UserId: 1,
-                confirm: 1
+                confirm: 0
             },            
             {
                 EventId: 2,

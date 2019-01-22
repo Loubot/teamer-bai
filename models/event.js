@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
         creatorId: DataTypes.INTEGER,
         startTime: DataTypes.DATE,
         endTime: DataTypes.DATE,
-        maxNumber: DataTypes.INTEGER
+        maxNumber: DataTypes.INTEGER,
+        attending: DataTypes.INTEGER
     }, {});
     Event.associate = function(models) {
         Event.belongsToMany(models.User, {

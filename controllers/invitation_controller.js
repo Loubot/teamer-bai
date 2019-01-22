@@ -3,6 +3,7 @@
 let winston = require('../config/winston-config').load_winston()
 let models = require('../models')
 let invitation_helper = require('../helpers/invitation_helper')
+let event_helper = require( '../helpers/event_helper' )
 
 module.exports.controller = function(app, strategy ) {
     app.use(function(req, res, next) {
@@ -94,22 +95,27 @@ module.exports.controller = function(app, strategy ) {
             invitation.save().then( invite => {
                 winston.debug( 'invite saved ' )
                 winston.debug( invite )
+                event_helper.add_to_event( req.body.Event.id, invite )
                 models.Invitation.findAll({
                     where: {
                         userId: req.params.userId
                     },
                     include: [{
-                        all: true,
-                        // where: { 
-                        //     startTime: {
-                        //         $gt: new Date()
-                        //     }
-                        // }
+                        model: models.Event,
+                        where: { 
+                            startTime: {
+                                $gt: new Date()
+                            }
+                        }
                     }]
                 }).then(invitations => {
                     winston.debug('Found invitations')
                     winston.debug(invitations)
                     res.json(invitations)
+                }).catch( bla => {
+                    winston.debug( 'Failed find all' )
+                    winston.debug( bla )
+                    res.status( 500 ).json( bla )
                 })
             }).catch( error => {
                 winston.debug( 'Failed to save invite' )
@@ -117,39 +123,7 @@ module.exports.controller = function(app, strategy ) {
                 res.status( 500 ).json( error )
             })
         })
-        // models.Invitation.update(
-        //         req.body, {
-        //             returning: true,
-        //             where: {
-        //                 id: req.params.id
-        //             }
-        //         }
-        //     ).then(function(rows) {
-        //         winston.debug('Invitation updated')
-        //         winston.debug(rows)
-        //         models.Invitation.findAll({
-        //             where: {
-        //                 userId: req.params.userId
-        //             },
-        //             include: [{
-        //                 all: true,
-        //                 // where: { 
-        //                 //     startTime: {
-        //                 //         $gt: new Date()
-        //                 //     }
-        //                 // }
-        //             }]
-        //         }).then(invitations => {
-        //             winston.debug('Found invitations')
-        //             winston.debug(invitations)
-        //             res.json(invitations)
-        //         })
-        //     })
-        //     .catch(err => {
-        //         winston.debug('Failed to update invitaion')
-        //         winston.debug(err)
-        //         res.status(500).json(err)
-        //     })
+        
     })
 
     // Confirm attendance from email

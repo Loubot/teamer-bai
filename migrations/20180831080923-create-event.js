@@ -20,6 +20,9 @@ module.exports = {
       maxNumber:{
         type: Sequelize.INTEGER
       },
+      attending:{
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
