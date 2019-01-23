@@ -110,10 +110,11 @@
                 <v-list subheader two-line class="center_text">
                     <!-- <v-subheader>Hangout notifications</v-subheader> -->
 
-                    <v-list-tile v-for="(event) in events" v-bind:key="event.id">
+                    <v-list-tile v-for="(event) in events" v-bind:key="event.id" v-bind:class="{ 'teal lighten-5 my-1': event.gameOn }" >
                         <v-list-tile-action :key="event.id">
                             <!-- <v-checkbox v-model="event.id" @click="addId( event.id )"></v-checkbox> -->
-                            <p @click="invite_dialog = !invite_dialog; getInvitations( event )"> {{ event.startTime | timeFormat }}</p>
+                            <span @click="invite_dialog = !invite_dialog; getInvitations( event )"> {{ event.startTime | timeFormat }}</span>
+                            <span v-if="event.gameOn">Game On</span>
                         </v-list-tile-action>
 
 
