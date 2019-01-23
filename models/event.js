@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
         startTime: DataTypes.DATE,
         endTime: DataTypes.DATE,
         maxNumber: DataTypes.INTEGER,
-        attending: DataTypes.INTEGER
+        attending: DataTypes.INTEGER,
+        gameOn: DataTypes.BOOLEAN
     }, {});
     Event.associate = function(models) {
         Event.belongsToMany(models.User, {

@@ -23,7 +23,6 @@ module.exports = {
         models.Event.findOne({
             where: { id: id }
         }).then( event => {
-            winston.debug( event.attending >= 10 )
 
             
             // Check if match is already full or empty and return errors if maths are wrong
@@ -36,6 +35,8 @@ module.exports = {
             } else {
                 event.attending = --event.attending 
             }
+
+            if ( event.attending === 10 ) event.gameOn = true
             
             event.save().then( updated => {
                 return res( null, updated )

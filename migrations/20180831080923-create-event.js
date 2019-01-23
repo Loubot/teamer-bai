@@ -18,10 +18,16 @@ module.exports = {
         type: Sequelize.DATE
       },
       maxNumber:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 10
+      },
+      gameOn: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
       },
       attending:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,
