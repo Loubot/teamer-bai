@@ -29,6 +29,7 @@ module.exports = {
                 messenger.invite_players( invite.id, users[ count ] )
                 do_invite_create( users, ++count, event )
             }).catch( err => {
+                winston.debug( 'Failed to create invite within create_invitation recursive loop')
                 winston.debug( err )
                 do_invite_create( users, ++count, event )
             })

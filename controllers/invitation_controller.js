@@ -31,8 +31,8 @@ module.exports.controller = function(app, strategy ) {
 
     // Create invite to an event
     app.post('/invitation/event/:id', strategy.authenticate(), function(req, res) {
-        winston.debug('/invitation/event/:id invitation_controller')
-        winston.debug(req.params)
+        winston.debug('/invitation/event/:id invitation_controller post')
+        // winston.debug(req.params)
         winston.debug(req.body)
         models.User.findAll({
             where: {
@@ -199,7 +199,7 @@ module.exports.controller = function(app, strategy ) {
 
     // Get invitations grouped by eventId
     app.get('/invitations/event/:eventId', strategy.authenticate(), (req, res) => {
-        winston.debug('/invitation/event/:eventId invitation_controller')
+        winston.debug('/invitation/event/:eventId invitation_controller get' )
         winston.debug(req.params)
         winston.debug(req.body)
         models.Invitation.findAll({

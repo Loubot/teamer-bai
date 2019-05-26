@@ -121,12 +121,12 @@ module.exports = {
             tags: ['ddd'],
             sender: {
                 name: 'Louis',
-                email: 'loubot@lyl.ie'
+                email: 'lllouis@yahoo.com'
             },
             to: createEmailList( player ),
             textContent: buildUrl( invite_id ),
             replyTo: {
-                email: 'loubot@lyl.ie'
+                email: 'lllouis@yahoo.com'
             },
             subject: 'Invite'
         }

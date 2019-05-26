@@ -4,7 +4,7 @@
 
             <!-- Match create-->
             <v-dialog v-model="createEventDialog" width="500">
-                <v-btn slot="activator" color="red lighten-2" dark>
+                <v-btn slot="activator" class="cursorYes" color="red lighten-2" dark>
                     Events
                 </v-btn>
 
@@ -361,6 +361,7 @@
                 this.date.endDate = d
             },
             inviteAll(id) {
+                console.log( this.invitees )
                 this.$http.post(
                         this.$hostname + "/invitation/event/" + id,
 
