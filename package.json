@@ -20,7 +20,7 @@
     "nodemon": "^1.18.9",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.15.1",
     "sequelize-cli": "^4.0.0",
     "sib-api-v3-sdk": "^7.0.3",
     "textbelt": "0.0.4",
